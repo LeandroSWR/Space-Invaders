@@ -24,6 +24,9 @@ namespace SpaceInvaders
         // Class with all the sprites to be used in the menu
         private MenuSprites mySprites;
 
+        // Holds a game instance
+        private Game game;
+
         /// <summary>
         /// Constructor for the menu class
         /// </summary>
@@ -31,6 +34,9 @@ namespace SpaceInvaders
         {
             // Instantiate the sprites
             mySprites = new MenuSprites();
+
+            // Instantiate a new Game
+            game = new Game();
 
             // The play button starts selected
             playSelected = true;
@@ -172,6 +178,7 @@ namespace SpaceInvaders
                     if (playSelected)
                     {
                         // Start the game
+                        game.Loop();
                     }
                     else
                     {
