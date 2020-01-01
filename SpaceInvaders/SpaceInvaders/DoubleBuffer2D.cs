@@ -39,12 +39,14 @@ namespace SpaceInvaders
 
         public void Display()
         {
-            for (int i = 0; i < YDim; i++)
+            Console.SetCursorPosition(0, 0);
+
+            for (int y = 0; y < YDim; y++)
             {
-                for (int a = 0; a < XDim; a++)
+                for (int x = 0; x < XDim; x++)
                 {
-                    Console.ForegroundColor = current[a, i].pixelColor;
-                    Console.Write(current[a, i].pixelChar);
+                    Console.ForegroundColor = current[x, y].pixelColor;
+                    Console.Write(current[x, y].pixelChar);
                 }
                 Console.WriteLine();
             }

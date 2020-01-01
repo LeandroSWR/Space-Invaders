@@ -42,7 +42,43 @@ namespace SpaceInvaders
         public void RenderMenu()
         {
             // Display the enemies in the menu
+            // Enemy 1
+            for (int i = 0; i < mySprites.enemy1String.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.Green);
+                BufferEditor.Write(7, 10 + i, mySprites.enemy1String[i]);
+                BufferEditor.Write(86, 10 + i, mySprites.enemy1String[i]);
+            }
+            // Enemy 2
+            for (int i = 0; i < mySprites.enemy2String.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.Cyan);
+                BufferEditor.Write(7, 17 + i, mySprites.enemy2String[i]);
+                BufferEditor.Write(86, 17 + i, mySprites.enemy2String[i]);
+            }
+            // Enemy 3
+            for (int i = 0; i < mySprites.enemy3String.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.Magenta);
+                BufferEditor.Write(7, 24 + i, mySprites.enemy3String[i]);
+                BufferEditor.Write(86, 24 + i, mySprites.enemy3String[i]);
+            }
+            // Enemy 4
+            for (int i = 0; i < mySprites.enemy4String.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.Blue);
+                BufferEditor.Write(7, 31 + i, mySprites.enemy4String[i]);
+                BufferEditor.Write(86, 31 + i, mySprites.enemy4String[i]);
+            }
+            // Enemy 5
+            for (int i = 0; i < mySprites.enemy5String.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.DarkGreen);
+                BufferEditor.Write(7, 37 + i, mySprites.enemy5String[i]);
+                BufferEditor.Write(86, 37 + i, mySprites.enemy5String[i]);
+            }
 
+            BufferEditor.DisplayRender();
         }
     }
 }

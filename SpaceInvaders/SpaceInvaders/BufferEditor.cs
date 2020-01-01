@@ -5,7 +5,7 @@ namespace SpaceInvaders
     /// <summary>
     /// Responsible for writing everything to the buffer
     /// </summary>
-    public static class BufferWriter
+    public static class BufferEditor
     {
         // Instantiate a new double buffer
         private static DoubleBuffer2D buffer2D = new DoubleBuffer2D(100, 59);
@@ -54,6 +54,18 @@ namespace SpaceInvaders
 
             // Writes to the buffer in the given position
             Write(x, y, str);
+        }
+
+        /// <summary>
+        /// Displays what was written to the buffer
+        /// </summary>
+        public static void DisplayRender()
+        {
+            // Swap buffer to write and display
+            buffer2D.Swap();
+
+            // Display what was written to the buffer
+            buffer2D.Display();
         }
     }
 }
