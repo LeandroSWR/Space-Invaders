@@ -15,7 +15,11 @@ namespace SpaceInvaders
             // Clears the console
             Console.Clear();
 
+            // Instantiate a new Menu
+            Menu menu = new Menu();
 
+            // Render the menu
+            menu.RenderMenu();
         }
     }
 }
