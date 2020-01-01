@@ -6,7 +6,16 @@ namespace SpaceInvaders
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // Hides the console cursor to not be visible
+            Console.CursorVisible = false;
+
+            // Set the window size for the console
+            Console.SetWindowSize(100, 59);
+
+            // Clears the console
+            Console.Clear();
+
+
         }
     }
 }
