@@ -10,7 +10,7 @@ namespace SpaceInvaders
             Console.CursorVisible = false;
 
             // Set the window size for the console
-            Console.SetWindowSize(100, 59);
+            Console.SetWindowSize(100, 61);
 
             // Clears the console
             Console.Clear();

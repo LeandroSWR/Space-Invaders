@@ -39,6 +39,9 @@ namespace SpaceInvaders
             quitSelected = false;
         }
 
+        /// <summary>
+        /// Renders all the sprites in the menu
+        /// </summary>
         public void RenderMenu()
         {
             // Display the enemies in the menu
@@ -78,7 +81,110 @@ namespace SpaceInvaders
                 BufferEditor.Write(86, 37 + i, mySprites.enemy5String[i]);
             }
 
+            // Display Title
+            for (int i = 0; i < mySprites.spaceString.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.Yellow);
+                BufferEditor.Write(21, 21 + i, mySprites.spaceString[i]);
+                BufferEditor.Write(45, 21 + i, mySprites.invadersString[i]);
+            }
+
+            // Display Buttons
+            for (int i = 0; i < mySprites.playString.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.White);
+                BufferEditor.Write(22, 28 + i, mySprites.playString[i]);
+                BufferEditor.Write(63, 28 + i, mySprites.quitString[i]);
+            }
+
+            // Display Button Selector
+            for (int i = 0; i < mySprites.selectionString.Length; i++)
+            {
+                BufferEditor.SetColor(ConsoleColor.White);
+                // If we have the play button selected
+                if (playSelected)
+                {
+                    // Draw the ship bellow the play button
+                    BufferEditor.Write(27, 33 + i, mySprites.selectionString[i]);
+                } 
+                // If we have the quit button selected
+                else if (quitSelected)
+                {
+                    // Draw the ship bellow the quit button
+                    BufferEditor.Write(67, 33 + i, mySprites.selectionString[i]);
+                }
+            }
+
+            // Tells the double buffer to render the frame
             BufferEditor.DisplayRender();
+
+            // Gets the input from the user
+            GetInput();
+        }
+
+        /// <summary>
+        /// Check the input from the user
+        /// </summary>
+        private void GetInput()
+        {
+            // Check what's the user input
+            switch(Console.ReadKey(true).Key)
+            {
+                // If the user pressed the left arrow key
+                case ConsoleKey.LeftArrow:
+                    // If the quit button is selected
+                    if (quitSelected)
+                    {
+                        // Change what button is selected
+                        playSelected = true;
+                        quitSelected = false;
+
+                        // Render the menu
+                        RenderMenu();
+                    } 
+                    else
+                    {
+                        // Render the menu
+                        RenderMenu();
+                    }
+                    break;
+                // If the user pressed the right arrow key
+                case ConsoleKey.RightArrow:
+                    // If the play button is selected
+                    if (playSelected)
+                    {
+                        // Change what button is selected
+                        playSelected = false;
+                        quitSelected = true;
+
+                        // Render the menu
+                        RenderMenu();
+                    }
+                    else
+                    {
+                        // Render the menu
+                        RenderMenu();
+                    }
+                    break;
+                // If the user pressed enter
+                case ConsoleKey.Enter:
+                    // If the play button is selected
+                    if (playSelected)
+                    {
+                        // Start the game
+                    }
+                    else
+                    {
+                        // Exits the application
+                        Environment.Exit(0);
+                    }
+                    break;
+                // If the user pressed an invalid key
+                default:
+                    // Render the menu
+                    RenderMenu();
+                    break;
+            }
         }
     }
 }
