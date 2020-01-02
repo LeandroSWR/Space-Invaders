@@ -10,11 +10,6 @@ namespace SpaceInvaders
     interface IGameObject
     {
         /// <summary>
-        /// The coordinates for the game object
-        /// </summary>
-        public Vector2 Coordinates { get; }
-
-        /// <summary>
         /// The update method of the game object
         /// </summary>
         public void Update();

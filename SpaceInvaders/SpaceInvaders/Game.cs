@@ -24,8 +24,6 @@ namespace SpaceInvaders
             // Initialize the collection
             objectsCollection = new List<IGameObject>();
 
-            objectsCollection.Add(new Ship());
-
             // Game over is false when the game starts
             gameOver = false;
         }
@@ -37,6 +35,12 @@ namespace SpaceInvaders
         {
             // Clears the console
             Console.Clear();
+
+            // Add a ship to the objects collection
+            objectsCollection.Add(new Ship());
+
+            // Add the enemies to the objects collection
+            objectsCollection.Add(new Enemies());
 
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();

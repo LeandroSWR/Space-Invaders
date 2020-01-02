@@ -37,33 +37,39 @@ namespace SpaceInvaders
         };
 
         public static readonly string[] enemy1String = new string[3] {
-            "▀▄ ▄▀",
-            "█▀█▀█",
-            "▐▀▀▀▌"
+            " ▀▄ ▄▀ ",
+            " █▀█▀█ ",
+            " ▐▀▀▀▌ "
         };
 
         public static readonly string[] enemy2String = new string[3] {
-            " ▐ ▌ ",
-            "█▀█▀█",
-            "▀▀▀▀▀"
+            "  ▐ ▌  ",
+            " █▀█▀█ ",
+            " ▀▀▀▀▀ "
         };
 
         public static readonly string[] enemy3String = new string[3] {
-            " ▄█▄ ",
-            "█▄█▄█",
-            "║╚ ╝║"
+            "  ▄█▄  ",
+            " █▄█▄█ ",
+            " ║╚ ╝║ "
         };
 
         public static readonly string[] enemy4String = new string[3] {
-            " ▄█▄ ",
-            "█▄█▄█",
-            "╝║ ║╚"
+            "  ▄█▄  ",
+            " █▄█▄█ ",
+            " ╝║ ║╚ "
         };
 
         public static readonly string[] enemy5String = new string[3] {
-            " ║ ║ ",
-            "▄▀█▀▄",
-            "▀▀█▀▀"
+            "  ║ ║  ",
+            " ▄▀█▀▄ ",
+            " ▀▀█▀▀ "
+        };
+
+        public static readonly string[] enemy6String = new string[3] {
+            "  ╔ ╗  ",
+            " ▄▀█▀▄ ",
+            " ▀█▀█▀ "
         };
     }
 }

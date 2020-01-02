@@ -55,36 +55,36 @@ namespace SpaceInvaders
             for (int i = 0; i < Sprites.enemy1String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Green);
-                BufferEditor.Write(7, 10 + i, Sprites.enemy1String[i]);
-                BufferEditor.Write(86, 10 + i, Sprites.enemy1String[i]);
+                BufferEditor.Write(6, 10 + i, Sprites.enemy1String[i]);
+                BufferEditor.Write(85, 10 + i, Sprites.enemy1String[i]);
             }
             // Enemy 2
             for (int i = 0; i < Sprites.enemy2String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Cyan);
-                BufferEditor.Write(7, 17 + i, Sprites.enemy2String[i]);
-                BufferEditor.Write(86, 17 + i, Sprites.enemy2String[i]);
+                BufferEditor.Write(6, 17 + i, Sprites.enemy2String[i]);
+                BufferEditor.Write(85, 17 + i, Sprites.enemy2String[i]);
             }
             // Enemy 3
             for (int i = 0; i < Sprites.enemy3String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Magenta);
-                BufferEditor.Write(7, 24 + i, Sprites.enemy3String[i]);
-                BufferEditor.Write(86, 24 + i, Sprites.enemy3String[i]);
+                BufferEditor.Write(6, 24 + i, Sprites.enemy3String[i]);
+                BufferEditor.Write(85, 24 + i, Sprites.enemy3String[i]);
             }
             // Enemy 4
             for (int i = 0; i < Sprites.enemy4String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Blue);
-                BufferEditor.Write(7, 31 + i, Sprites.enemy4String[i]);
-                BufferEditor.Write(86, 31 + i, Sprites.enemy4String[i]);
+                BufferEditor.Write(6, 31 + i, Sprites.enemy4String[i]);
+                BufferEditor.Write(85, 31 + i, Sprites.enemy4String[i]);
             }
             // Enemy 5
             for (int i = 0; i < Sprites.enemy5String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.DarkGreen);
-                BufferEditor.Write(7, 37 + i, Sprites.enemy5String[i]);
-                BufferEditor.Write(86, 37 + i, Sprites.enemy5String[i]);
+                BufferEditor.Write(6, 37 + i, Sprites.enemy5String[i]);
+                BufferEditor.Write(85, 37 + i, Sprites.enemy5String[i]);
             }
 
             // Display Title
