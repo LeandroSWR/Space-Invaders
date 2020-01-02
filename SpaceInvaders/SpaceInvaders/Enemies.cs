@@ -163,10 +163,10 @@ namespace SpaceInvaders
             {
                 enemies.Add(new Enemy(i * 8, 4, ConsoleColor.Green, EnemyType.ONE));
                 enemies.Add(new Enemy(i * 8, 8, ConsoleColor.Green, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, 12, ConsoleColor.Cyan, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, 16, ConsoleColor.Cyan, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, 20, ConsoleColor.Magenta, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, 24, ConsoleColor.Magenta, EnemyType.ONE));
+                enemies.Add(new Enemy(i * 8, 12, ConsoleColor.Cyan, EnemyType.TWO));
+                enemies.Add(new Enemy(i * 8, 16, ConsoleColor.Cyan, EnemyType.TWO));
+                enemies.Add(new Enemy(i * 8, 20, ConsoleColor.Magenta, EnemyType.THREE));
+                enemies.Add(new Enemy(i * 8, 24, ConsoleColor.Magenta, EnemyType.THREE));
             }
         }
     }
