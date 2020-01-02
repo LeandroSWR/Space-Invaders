@@ -9,19 +9,19 @@ namespace SpaceInvaders
         /// <summary>
         /// Entity X Coordinates
         /// </summary>
-        public float X { get; set; }
+        public int X { get; set; }
         
         /// <summary>
         /// Entity Y Coordinates
         /// </summary>
-        public float Y { get; set; }
+        public int Y { get; set; }
 
         /// <summary>
         /// Entity coordinates constructor
         /// </summary>
         /// <param name="x">The x coordinates</param>
         /// <param name="y">The y coordinates</param>
-        public Vector2(float x, float y)
+        public Vector2(int x, int y)
         {
             // Initialize the `X` coordinates with the given value
             X = x;

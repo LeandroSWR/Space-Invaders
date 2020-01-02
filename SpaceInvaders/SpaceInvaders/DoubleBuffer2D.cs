@@ -17,9 +17,10 @@ namespace SpaceInvaders
             set => next[x, y] = value;
         }
 
-        private void Clear()
+        public void Clear()
         {
             Array.Clear(next, 0, XDim * YDim - 1);
+            Array.Clear(current, 0, XDim * YDim - 1);
         }
 
         public DoubleBuffer2D(int x, int y)
@@ -29,7 +30,7 @@ namespace SpaceInvaders
 
             Clear();
         }
-
+        
         public void Swap()
         {
             Pixel[,] aux = current;
@@ -45,8 +46,15 @@ namespace SpaceInvaders
             {
                 for (int x = 0; x < XDim; x++)
                 {
-                    Console.ForegroundColor = current[x, y].pixelColor;
-                    Console.Write(current[x, y].pixelChar);
+                    if (current[x, y].pixelChar != default(char))
+                    {
+                        if (Console.ForegroundColor != current[x, y].pixelColor)
+                        {
+                            Console.ForegroundColor = current[x, y].pixelColor;
+                        }
+                        Console.SetCursorPosition(x, y);
+                        Console.Write(current[x, y].pixelChar);
+                    }
                 }
                 Console.WriteLine();
             }

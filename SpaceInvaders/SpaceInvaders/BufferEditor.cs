@@ -67,5 +67,13 @@ namespace SpaceInvaders
             // Display what was written to the buffer
             buffer2D.Display();
         }
+
+        /// <summary>
+        /// Clears the 'next' frame to be rendered
+        /// </summary>
+        public static void ClearBuffer()
+        {
+            buffer2D.Clear();
+        }
     }
 }

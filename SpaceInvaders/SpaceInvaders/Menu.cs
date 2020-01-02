@@ -22,7 +22,7 @@ namespace SpaceInvaders
         private bool quitSelected;
 
         // Class with all the sprites to be used in the menu
-        private MenuSprites mySprites;
+        private Sprites mySprites;
 
         // Holds a game instance
         private Game game;
@@ -33,7 +33,7 @@ namespace SpaceInvaders
         public Menu() 
         {
             // Instantiate the sprites
-            mySprites = new MenuSprites();
+            mySprites = new Sprites();
 
             // Instantiate a new Game
             game = new Game();
@@ -52,72 +52,74 @@ namespace SpaceInvaders
         {
             // Display the enemies in the menu
             // Enemy 1
-            for (int i = 0; i < mySprites.enemy1String.Length; i++)
+            for (int i = 0; i < Sprites.enemy1String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Green);
-                BufferEditor.Write(7, 10 + i, mySprites.enemy1String[i]);
-                BufferEditor.Write(86, 10 + i, mySprites.enemy1String[i]);
+                BufferEditor.Write(7, 10 + i, Sprites.enemy1String[i]);
+                BufferEditor.Write(86, 10 + i, Sprites.enemy1String[i]);
             }
             // Enemy 2
-            for (int i = 0; i < mySprites.enemy2String.Length; i++)
+            for (int i = 0; i < Sprites.enemy2String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Cyan);
-                BufferEditor.Write(7, 17 + i, mySprites.enemy2String[i]);
-                BufferEditor.Write(86, 17 + i, mySprites.enemy2String[i]);
+                BufferEditor.Write(7, 17 + i, Sprites.enemy2String[i]);
+                BufferEditor.Write(86, 17 + i, Sprites.enemy2String[i]);
             }
             // Enemy 3
-            for (int i = 0; i < mySprites.enemy3String.Length; i++)
+            for (int i = 0; i < Sprites.enemy3String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Magenta);
-                BufferEditor.Write(7, 24 + i, mySprites.enemy3String[i]);
-                BufferEditor.Write(86, 24 + i, mySprites.enemy3String[i]);
+                BufferEditor.Write(7, 24 + i, Sprites.enemy3String[i]);
+                BufferEditor.Write(86, 24 + i, Sprites.enemy3String[i]);
             }
             // Enemy 4
-            for (int i = 0; i < mySprites.enemy4String.Length; i++)
+            for (int i = 0; i < Sprites.enemy4String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Blue);
-                BufferEditor.Write(7, 31 + i, mySprites.enemy4String[i]);
-                BufferEditor.Write(86, 31 + i, mySprites.enemy4String[i]);
+                BufferEditor.Write(7, 31 + i, Sprites.enemy4String[i]);
+                BufferEditor.Write(86, 31 + i, Sprites.enemy4String[i]);
             }
             // Enemy 5
-            for (int i = 0; i < mySprites.enemy5String.Length; i++)
+            for (int i = 0; i < Sprites.enemy5String.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.DarkGreen);
-                BufferEditor.Write(7, 37 + i, mySprites.enemy5String[i]);
-                BufferEditor.Write(86, 37 + i, mySprites.enemy5String[i]);
+                BufferEditor.Write(7, 37 + i, Sprites.enemy5String[i]);
+                BufferEditor.Write(86, 37 + i, Sprites.enemy5String[i]);
             }
 
             // Display Title
-            for (int i = 0; i < mySprites.spaceString.Length; i++)
+            for (int i = 0; i < Sprites.spaceString.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.Yellow);
-                BufferEditor.Write(21, 21 + i, mySprites.spaceString[i]);
-                BufferEditor.Write(45, 21 + i, mySprites.invadersString[i]);
+                BufferEditor.Write(21, 21 + i, Sprites.spaceString[i]);
+                BufferEditor.Write(45, 21 + i, Sprites.invadersString[i]);
             }
 
             // Display Buttons
-            for (int i = 0; i < mySprites.playString.Length; i++)
+            for (int i = 0; i < Sprites.playString.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.White);
-                BufferEditor.Write(22, 28 + i, mySprites.playString[i]);
-                BufferEditor.Write(63, 28 + i, mySprites.quitString[i]);
+                BufferEditor.Write(22, 28 + i, Sprites.playString[i]);
+                BufferEditor.Write(63, 28 + i, Sprites.quitString[i]);
             }
 
             // Display Button Selector
-            for (int i = 0; i < mySprites.selectionString.Length; i++)
+            for (int i = 0; i < Sprites.selectionString.Length; i++)
             {
                 BufferEditor.SetColor(ConsoleColor.White);
                 // If we have the play button selected
                 if (playSelected)
                 {
                     // Draw the ship bellow the play button
-                    BufferEditor.Write(27, 33 + i, mySprites.selectionString[i]);
+                    BufferEditor.Write(27, 33 + i, Sprites.selectionString[i]);
+                    BufferEditor.Write(67, 33 + i, "      ");
                 } 
                 // If we have the quit button selected
                 else if (quitSelected)
                 {
                     // Draw the ship bellow the quit button
-                    BufferEditor.Write(67, 33 + i, mySprites.selectionString[i]);
+                    BufferEditor.Write(67, 33 + i, Sprites.selectionString[i]);
+                    BufferEditor.Write(27, 33 + i, "      ");
                 }
             }
 
