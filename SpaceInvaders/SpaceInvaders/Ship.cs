@@ -23,6 +23,9 @@ namespace SpaceInvaders
         // The current type of movement the ship has
         private MoveType currentMove;
 
+        // Instance of Bullets
+        private Bullets shipBullets;
+
         // A key reader
         private KeyReader keyReader;
 
@@ -37,8 +40,11 @@ namespace SpaceInvaders
             // Set the ship coordinates to the starting position
             coordinates = new Vector2(47, 55);
 
-            // Instanciate a new Key Reader
+            // Instantiate a new Key Reader
             keyReader = new KeyReader();
+
+            // Instatiate the ship bullets
+            shipBullets = new Bullets();
 
             // Instantiate a new Timer
             moveTimer = new Timer(MOVE_SPEED);
@@ -63,6 +69,9 @@ namespace SpaceInvaders
 
             // Moves the ship
             Move();
+
+            // Update the bullets
+            shipBullets.UpdateBullets();
         }
 
         /// <summary>
@@ -103,6 +112,10 @@ namespace SpaceInvaders
                 case ConsoleKey.X:
                     // Stop the ship movement
                     currentMove = MoveType.NONE;
+                    break;
+                // If the user pressed space bar
+                case ConsoleKey.Spacebar:
+                    shipBullets.Add(coordinates.X + 3, coordinates.Y - 1, MoveType.UP);
                     break;
             }
         }

@@ -10,13 +10,11 @@ namespace SpaceInvaders
 {
     class DoubleBuffer2D
     {
-        private Pixel[,] current;
+        public Pixel[,] current;
         private Pixel[,] next;
 
         public int XDim => next.GetLength(0);
         public int YDim => next.GetLength(1);
-
-        StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), Encoding.Default);
 
         public Pixel this[int x, int y] {
             get => current[x, y];
@@ -62,6 +60,7 @@ namespace SpaceInvaders
             ConsoleColor currentForeground = ConsoleColor.Black;
 
             string s = "";
+            string p = "";
 
             for (int y = 0; y < YDim; y++)
             {
@@ -75,9 +74,10 @@ namespace SpaceInvaders
                     }
 
                     s += current[x, y].pixelChar;
+                    p += next[x, y].pixelChar;
                 }
 
-                if (s.Count(c => c == ' ') < 100)
+                if (s != p)
                 {
                     Console.WriteLine(s);
                 } else

@@ -8,6 +8,8 @@ namespace SpaceInvaders
     {
         NONE,
         LEFT,
-        RIGHT
+        RIGHT,
+        UP,
+        DOWN
     }
 }

@@ -31,6 +31,19 @@ namespace SpaceInvaders
             }
         }
 
+        public static void Delete(int x, int y, string str)
+        {
+            // Goes through every char on the given string
+            for (int i = 0; i < str.Length; i++)
+            {
+                // Set's the char for the current pixel
+                currentPixel.pixelChar = str[i];
+
+                // Writes that pixel to the buffer
+                buffer2D.current[x + i, y] = currentPixel;
+            }
+        }
+
         /// <summary>
         /// Set the pixel color to a specific color
         /// </summary>
