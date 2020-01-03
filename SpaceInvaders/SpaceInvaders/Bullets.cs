@@ -106,7 +106,7 @@ namespace SpaceInvaders
             if (numOfBullets < maxNumOfBullets)
             {
                 // Increase the number of bullets
-                maxNumOfBullets++;
+                numOfBullets++;
 
                 // Add a new bullet to the list
                 BulletsList.Add(new Bullet(x, y, movement));

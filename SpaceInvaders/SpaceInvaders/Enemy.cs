@@ -99,15 +99,15 @@ namespace SpaceInvaders
         /// </summary>
         public void Update()
         {
-            // Writes the enemy sprite to the buffer
-            WriteToBuffer();
-
             // If the enemy can move
             if (CanMove)
             {
                 // Move
                 Move();
             }
+
+            // Writes the enemy sprite to the buffer
+            WriteToBuffer();
         }
 
         /// <summary>
@@ -150,12 +150,13 @@ namespace SpaceInvaders
         /// </summary>
         private void Move()
         {
-            // Clear the area above the enemy
-            BufferEditor.Write(coordinates.X, coordinates.Y - 1, "       ");
-
             // If the enemy is to move down
             if (IncreaseY)
             {
+                // Clear the area above the enemy
+                BufferEditor.Write(coordinates.X, coordinates.Y, "       ");
+                BufferEditor.Delete(coordinates.X, coordinates.Y, "       ");
+
                 // Moves the enemy down
                 coordinates.Y++;
 

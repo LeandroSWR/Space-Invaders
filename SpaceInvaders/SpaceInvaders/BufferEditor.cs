@@ -31,6 +31,12 @@ namespace SpaceInvaders
             }
         }
 
+        /// <summary>
+        /// Detelete a string from the current buffer
+        /// </summary>
+        /// <param name="x">String x position</param>
+        /// <param name="y">String Y position</param>
+        /// <param name="str">The string</param>
         public static void Delete(int x, int y, string str)
         {
             // Goes through every char on the given string

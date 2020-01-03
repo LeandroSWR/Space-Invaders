@@ -61,21 +61,19 @@ namespace SpaceInvaders
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
 
-            // Displays the initial header
-            DisplayHeader();
+            
 
             // Loops...
             do
             {
                 /// Call a global update method ///
-
                 for (int i = 0; i < objectsCollection.Count; i++)
                 {
                     (objectsCollection[i] as IGameObject).Update();
                 }
 
-                // Update the numbers on the header
-                UpdateHeader();
+                // Displays the header
+                DisplayHeader();
 
                 // Check for hits
                 EnemyDestroyedCheck();
@@ -90,6 +88,9 @@ namespace SpaceInvaders
             } while (!gameOver);
         }
 
+        /// <summary>
+        /// Check if an enemy was destroyed
+        /// </summary>
         private void EnemyDestroyedCheck()
         {
             List<Bullet> bullets;
@@ -115,9 +116,6 @@ namespace SpaceInvaders
 
         private void DisplayHeader()
         {
-            // Ascii
-            // ▄ ▀ █ ▐ ▌ ∞
-
             Console.SetCursorPosition(0, 0);
             BufferEditor.SetColor(ConsoleColor.Red);
 
@@ -132,10 +130,7 @@ namespace SpaceInvaders
             BufferEditor.Write(1, 1, "Score:");
             BufferEditor.Write(30, 1, "Level:");
             BufferEditor.Write(47, 1, "Lifes:");
-        }
 
-        private void UpdateHeader()
-        {
             NumberManager.WriteScore(score);
             NumberManager.WriteLevel(level);
             NumberManager.WriteLifes(lifes);
