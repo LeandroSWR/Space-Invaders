@@ -24,7 +24,7 @@ namespace SpaceInvaders
         private MoveType currentMove;
 
         // Instance of Bullets
-        private Bullets shipBullets;
+        public Bullets ShipBullets { get; private set; }
 
         // A key reader
         private KeyReader keyReader;
@@ -44,7 +44,7 @@ namespace SpaceInvaders
             keyReader = new KeyReader();
 
             // Instatiate the ship bullets
-            shipBullets = new Bullets();
+            ShipBullets = new Bullets();
 
             // Instantiate a new Timer
             moveTimer = new Timer(MOVE_SPEED);
@@ -71,7 +71,7 @@ namespace SpaceInvaders
             Move();
 
             // Update the bullets
-            shipBullets.UpdateBullets();
+            ShipBullets.UpdateBullets();
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace SpaceInvaders
                     break;
                 // If the user pressed space bar
                 case ConsoleKey.Spacebar:
-                    shipBullets.Add(coordinates.X + 3, coordinates.Y - 1, MoveType.UP);
+                    ShipBullets.Add(coordinates.X + 3, coordinates.Y - 1, MoveType.UP);
                     break;
             }
         }

@@ -6,6 +6,10 @@ namespace SpaceInvaders
 {
     class Enemy : IGameObject
     {
+        // Constants related to what's done in this script
+        private const int SPRITE_HEIGTH = 3;
+        private const int SPRITE_WIDTH = 7;
+
         /// <summary>
         /// The coordinate for the ship
         /// </summary>
@@ -103,6 +107,22 @@ namespace SpaceInvaders
             {
                 // Move
                 Move();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the enemy from the buffer
+        /// </summary>
+        public void Delete()
+        {
+            // Go through all the strings in the sprite
+            for (int i = 0; i < SPRITE_HEIGTH; i++)
+            {
+                // Write to the next buffer an empty string
+                BufferEditor.Write(coordinates.X, coordinates.Y + i, "       ");
+
+                // Write to the current buffer an empty string
+                BufferEditor.Delete(coordinates.X, coordinates.Y + i, "       ");
             }
         }
 

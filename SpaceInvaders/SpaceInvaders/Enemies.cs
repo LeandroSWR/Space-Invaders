@@ -86,6 +86,43 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Checks if an enemy was hit by a bullet
+        /// </summary>
+        /// <param name="bulletCoordinate">The coordinate of the bullet</param>
+        /// <returns>If there was a hit</returns>
+        public bool CheckHit(Vector2 bulletCoordinate)
+        {
+            // Saves the enemy location
+            Vector2 coordinate;
+
+            // Go through all existing enemies
+            for(int i = enemies.Count - 1; i >= 0; i--)
+            {
+                // Save the coordinate on a specific variable
+                coordinate = enemies[i].Coordinates;
+
+                // If the bullet hit an enemy
+                if (bulletCoordinate.X >= coordinate.X + 1 &&
+                    bulletCoordinate.X < coordinate.X + 6 &&
+                    bulletCoordinate.Y >= coordinate.Y &&
+                    bulletCoordinate.Y < coordinate.Y + 2)
+                {
+                    // Delete the enemy
+                    enemies[i].Delete();
+
+                    // Remove the enemy from the list
+                    enemies.Remove(enemies[i]);
+
+                    // Return true
+                    return true;
+                }
+            }
+
+            // Return false
+            return false;
+        }
+
+        /// <summary>
         /// Updates all enemies
         /// </summary>
         private void UpdateAllEnemies()

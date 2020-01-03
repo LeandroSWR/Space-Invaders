@@ -77,6 +77,9 @@ namespace SpaceInvaders
                 // Update the numbers on the header
                 UpdateHeader();
 
+                // Check for hits
+                EnemyDestroyedCheck();
+
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
 
@@ -85,6 +88,29 @@ namespace SpaceInvaders
 
                 // While the game is not over
             } while (!gameOver);
+        }
+
+        private void EnemyDestroyedCheck()
+        {
+            List<Bullet> bullets;
+            List<Bullet> bulletsToDelete;
+
+            bullets = (objectsCollection[0] as Ship).ShipBullets.BulletsList;
+            bulletsToDelete = new List<Bullet>(3);
+
+            if (bullets.Count > 0)
+            {
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if ((objectsCollection[1] as Enemies).CheckHit(bullets[i].Coordinates))
+                    {
+                        bulletsToDelete.Add(bullets[i]);
+                        score += 100;
+                    }
+                }
+
+                (objectsCollection[0] as Ship).ShipBullets.DeleteBullets(bulletsToDelete);
+            }
         }
 
         private void DisplayHeader()

@@ -34,7 +34,7 @@ namespace SpaceInvaders
             // Set the type of increment based on the move type
             increment = movement == MoveType.UP ? -1 : 1;
 
-            // Set the beam sprite
+            // Set the bullet sprite
             bullet = '║';
         }
 
