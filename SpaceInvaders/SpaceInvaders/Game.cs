@@ -9,6 +9,16 @@ namespace SpaceInvaders
     {
         // Constant that holds the frame time
         private const int FAME_TIME = 20;
+        private const int START_LIFES = 3;
+
+        // The current score
+        private int score;
+
+        // The current number of lifes
+        private int lifes;
+
+        // The current level
+        private int level;
 
         // Bool knows if the game is over
         private bool gameOver;
@@ -26,6 +36,12 @@ namespace SpaceInvaders
 
             // Game over is false when the game starts
             gameOver = false;
+
+            // Initialize the lifes at 3
+            lifes = START_LIFES;
+
+            // Initialize the level at 1
+            level = 1;
         }
 
         /// <summary>
@@ -45,18 +61,21 @@ namespace SpaceInvaders
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
 
+            // Displays the initial header
+            DisplayHeader();
+
             // Loops...
             do
             {
-                // Create a new long based on the current tick
-                long start = DateTime.Now.Ticks;
-
                 /// Call a global update method ///
 
                 for (int i = 0; i < objectsCollection.Count; i++)
                 {
                     (objectsCollection[i] as IGameObject).Update();
                 }
+
+                // Update the numbers on the header
+                UpdateHeader();
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
@@ -66,6 +85,34 @@ namespace SpaceInvaders
 
                 // While the game is not over
             } while (!gameOver);
+        }
+
+        private void DisplayHeader()
+        {
+            // Ascii
+            // ▄ ▀ █ ▐ ▌ ∞
+
+            Console.SetCursorPosition(0, 0);
+            BufferEditor.SetColor(ConsoleColor.Red);
+
+            for (int i = 0; i < 100; i++)
+            {
+                BufferEditor.Write(i, 0, "-");
+                BufferEditor.Write(i, 5, "-");
+            }
+
+            BufferEditor.SetColor(ConsoleColor.Blue);
+
+            BufferEditor.Write(1, 1, "Score:");
+            BufferEditor.Write(30, 1, "Level:");
+            BufferEditor.Write(47, 1, "Lifes:");
+        }
+
+        private void UpdateHeader()
+        {
+            NumberManager.WriteScore(score);
+            NumberManager.WriteLevel(level);
+            NumberManager.WriteLifes(lifes);
         }
     }
 }
