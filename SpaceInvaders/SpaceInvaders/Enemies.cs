@@ -7,7 +7,7 @@ namespace SpaceInvaders
     /// <summary>
     /// All enemies do the same so this class manages all of them
     /// </summary>
-    class Enemies : IGameObject
+    class Enemies : GameObject
     {
         // Constants related to what's done in this script
         private const int ANIMATION_INIT_SPEED = 12;
@@ -93,7 +93,7 @@ namespace SpaceInvaders
             AddEnemies();
         }
 
-        public void Update()
+        public override void Update()
         {
             // If the animation timer has finished counting
             if (!animationTimer.IsCounting())

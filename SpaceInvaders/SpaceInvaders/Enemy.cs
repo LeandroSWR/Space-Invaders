@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SpaceInvaders
 {
-    class Enemy : IGameObject
+    class Enemy : GameObject
     {
         // Constants related to what's done in this script
         private const int SPRITE_HEIGTH = 3;
@@ -97,7 +97,7 @@ namespace SpaceInvaders
         /// <summary>
         /// The Update method
         /// </summary>
-        public void Update()
+        public override void Update()
         {
             // If the enemy can move
             if (CanMove)

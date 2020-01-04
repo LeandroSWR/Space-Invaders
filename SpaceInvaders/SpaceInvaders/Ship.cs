@@ -2,7 +2,7 @@
 
 namespace SpaceInvaders
 {
-    class Ship : IGameObject
+    class Ship : GameObject
     {
         // Constants related to what's done in this script
         private const int LEFT_BOUNDARY = 0;
@@ -74,7 +74,7 @@ namespace SpaceInvaders
         /// <summary>
         /// The Update method for the ship (Called once every frame)
         /// </summary>
-        public void Update()
+        public override void Update()
         {
             if (!LifeLost)
             {

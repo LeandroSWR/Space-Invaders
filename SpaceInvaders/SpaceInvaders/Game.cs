@@ -24,7 +24,7 @@ namespace SpaceInvaders
         private bool gameOver;
 
         // Collection with all the game objects
-        List<IGameObject> objectsCollection;
+        List<GameObject> objectsCollection;
 
         /// <summary>
         /// Constructor for the Game class
@@ -32,7 +32,7 @@ namespace SpaceInvaders
         public Game()
         {
             // Initialize the collection
-            objectsCollection = new List<IGameObject>();
+            objectsCollection = new List<GameObject>();
 
             // Game over is false when the game starts
             gameOver = false;
@@ -58,8 +58,17 @@ namespace SpaceInvaders
             // Add the enemies to the objects collection
             objectsCollection.Add(new Enemies());
 
+            // Add the barriers to the objects collection
+            objectsCollection.Add(new Barriers());
+
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
+
+            /// Call a global Start method ///
+            for (int i = 0; i < objectsCollection.Count; i++)
+            {
+                (objectsCollection[i] as GameObject).Start();
+            }
 
             // Loops...
             do
@@ -67,7 +76,7 @@ namespace SpaceInvaders
                 /// Call a global update method ///
                 for (int i = 0; i < objectsCollection.Count; i++)
                 {
-                    (objectsCollection[i] as IGameObject).Update();
+                    (objectsCollection[i] as GameObject).Update();
                 }
 
                 // Displays the header
@@ -75,7 +84,8 @@ namespace SpaceInvaders
 
                 // Check for hits
                 EnemyDestroyedCheck();
-                
+                BarrierHitCheck();
+
                 // Check if the ship was hit
                 if (ShipDestroyedCheck())
                 {
@@ -137,6 +147,68 @@ namespace SpaceInvaders
                 // Delete the bullets
                 (objectsCollection[0] as Ship).ShipBullets.DeleteBullets(bulletsToDelete);
             }
+        }
+
+        /// <summary>
+        /// Check if a bullet has hit a barrier
+        /// </summary>
+        private void BarrierHitCheck()
+        {
+            // Create a new list of bullets to delete
+            List<Bullet> bulletsToDelete = new List<Bullet>();
+            // Create a new vector2 to hold the bullet coordinate
+            Vector2 bulletCoordinate;
+
+            // Go through every bullet on the ship's bullet list
+            foreach (Bullet bullet in (objectsCollection[0] as Ship).ShipBullets.BulletsList)
+            {
+                // Save it's coordinate to the vector2
+                bulletCoordinate = bullet.Coordinates;
+
+                // If that bullet is in range of a barrier
+                if (bulletCoordinate.Y > 49 && bulletCoordinate.Y < 56)
+                {
+                    // Check if it hit the barrier
+                    if ((objectsCollection[2] as Barriers).DeleteBarrierPart(bulletCoordinate))
+                    {
+                        // Add the bullet to the bullets to delete list
+                        bulletsToDelete.Add(bullet);
+
+                        // Remove the bullet from the screen
+                        bullet.Delete();
+                    }
+                }
+            }
+
+            // Delete all the bullets that hit the barrier
+            (objectsCollection[0] as Ship).ShipBullets.DeleteBullets(bulletsToDelete);
+
+            // Clear the list
+            bulletsToDelete.Clear();
+
+            // Go through every bullet on the Enemies bullet list
+            foreach (Bullet bullet in (objectsCollection[1] as Enemies).EnemyBullets.BulletsList)
+            {
+                // Save it's coordinate to the vector2
+                bulletCoordinate = bullet.Coordinates;
+
+                // If that bullet is in range of a barrier
+                if (bulletCoordinate.Y > 49 & bulletCoordinate.Y < 56)
+                {
+                    // Check if it hit the barrier
+                    if ((objectsCollection[2] as Barriers).DeleteBarrierPart(bulletCoordinate))
+                    {
+                        // Add the bullet to the bullets to delete list
+                        bulletsToDelete.Add(bullet);
+
+                        // Remove the bullet from the screen
+                        bullet.Delete();
+                    }
+                }
+            }
+
+            // Delete all the bullets that hit the barrier
+            (objectsCollection[1] as Enemies).EnemyBullets.DeleteBullets(bulletsToDelete);
         }
 
         /// <summary>
@@ -205,6 +277,10 @@ namespace SpaceInvaders
                         NumberManager.DeleteLifes();
                     }
                 }
+
+                // Check for hits
+                EnemyDestroyedCheck();
+                BarrierHitCheck();
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();

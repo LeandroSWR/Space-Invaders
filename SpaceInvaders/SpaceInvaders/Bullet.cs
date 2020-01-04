@@ -48,7 +48,7 @@ namespace SpaceInvaders
         private void Write()
         {
             // Write to the buffer
-            BufferEditor.Write(coordinates.X, coordinates.Y, bullet.ToString());
+            BufferEditor.Delete(coordinates.X, coordinates.Y, bullet.ToString());
         }
 
         /// <summary>
@@ -58,7 +58,6 @@ namespace SpaceInvaders
         {
             // Write the bullet to the buffer
             BufferEditor.Delete(coordinates.X, coordinates.Y, " ");
-            BufferEditor.Write(coordinates.X, coordinates.Y, " ");
         }
 
         /// <summary>

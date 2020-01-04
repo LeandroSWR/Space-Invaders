@@ -12,6 +12,11 @@ namespace SpaceInvaders
         /// <summary>
         /// The update method of the game object
         /// </summary>
-        public void Update();
+        public abstract void Update();
+
+        /// <summary>
+        /// The start method of the game object
+        /// </summary>
+        public abstract void Start();
     }
 }
