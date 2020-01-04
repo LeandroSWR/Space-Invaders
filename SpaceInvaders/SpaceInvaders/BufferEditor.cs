@@ -49,6 +49,7 @@ namespace SpaceInvaders
                 buffer2D.current[x + i, y] = currentPixel;
             }
 
+            // Write to the buffer
             BufferEditor.Write(x, y, str);
         }
 
@@ -94,6 +95,7 @@ namespace SpaceInvaders
         /// </summary>
         public static void ClearBuffer()
         {
+            // Clear the buffer
             buffer2D.Clear();
         }
     }

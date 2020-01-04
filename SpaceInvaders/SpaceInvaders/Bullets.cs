@@ -15,8 +15,10 @@ namespace SpaceInvaders
         // The max number of bullets of the scene
         private int maxNumOfBullets;
 
+        // The endRow for the bullet
         private int endRow;
 
+        // How fast the bullet will move
         private Timer moveTimer;
 
         /// <summary>
@@ -27,8 +29,10 @@ namespace SpaceInvaders
             // Set the maximum number of bullets
             maxNumOfBullets = maxBullets;
 
+            // Set the end row
             this.endRow = endRow;
 
+            // Instantiat a new timer
             moveTimer = new Timer(moveSpeed);
 
             // Initialize a new `List` of `ShipBullets`

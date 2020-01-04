@@ -102,16 +102,22 @@ namespace SpaceInvaders
                 firstSprite = !firstSprite;
             }
 
+            // Update all enemy bullets
             EnemyBullets.UpdateBullets();
 
+            // If the ship is not destroyed
             if (!shipDestroyed)
             {
+                // Try to shoot
                 Shoot();
 
                 // Update the movement for the enemies
                 Move();
-            } else
+            } 
+            // Else...
+            else
             {
+                // Move the enemies up
                 MoveUp();
             }
             
@@ -119,37 +125,62 @@ namespace SpaceInvaders
             UpdateAllEnemies();
         }
 
+        /// <summary>
+        /// Moves the enemies up
+        /// </summary>
         public void MoveUp()
         {
+            // If the moveSpeed timer is not counting and the move steps is counting
             if (!moveUpSpeed.IsCounting() && moveUpSteps.IsCounting())
             {
+                // Create a new int `min`
                 int min = 60;
+
+                // Create a new coordinate
                 Vector2 coordinate;
 
+                // Go through every enemy in the enemies list
                 foreach (Enemy enemy in enemies)
                 {
+                    // Save it's coordinates
                     coordinate = enemy.Coordinates;
 
+                    // If the min is bigger than the coordinate Y
                     if (min > coordinate.Y)
+                    {
+                        // Set the min to be equal to the coordinate Y
                         min = coordinate.Y;
+                    }
                 }
 
+                // If min is bigger than the minimum Y value
                 if (min > Y_MIN)
                 {
+                    // Go through every enemy on the enemies list
                     foreach (Enemy enemy in enemies)
                     {
+                        // Save it's coordinates
                         coordinate = enemy.Coordinates;
+
+                        // Delete the under part of the enemy
                         BufferEditor.Delete(coordinate.X, coordinate.Y + 2, "       ");
+
+                        // Decrease the enemy Y value
                         enemy.DecreaseY();
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Reset the move up timers
+        /// </summary>
         public void ResetMoveUp()
         {
+            // Reset the moveUpSteps timer
             moveUpSteps = new Timer(MOVE_UP_STEPS);
-
+            
+            // Reset the moveUpSpeed;
             moveUpSpeed = new Timer(MOVE_UP_SPEED);
         }
 

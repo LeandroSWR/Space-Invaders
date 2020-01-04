@@ -18,6 +18,7 @@ namespace SpaceInvaders
         private Vector2 coordinates;
         public Vector2 Coordinates => coordinates;
 
+        // Save the move direction of the bullet
         public MoveType moveDirection { get; }
 
         /// <summary>
@@ -28,6 +29,7 @@ namespace SpaceInvaders
         /// <param name="movement">The type of movement the bullet will have (Up/Down)</param>
         public Bullet(int x, int y, MoveType movement) 
         {
+            // Set the move direction
             moveDirection = movement;
 
             // Set the bullet coordinates to the starting position
@@ -45,6 +47,7 @@ namespace SpaceInvaders
         /// </summary>
         private void Write()
         {
+            // Write to the buffer
             BufferEditor.Write(coordinates.X, coordinates.Y, bullet.ToString());
         }
 
