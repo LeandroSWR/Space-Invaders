@@ -61,8 +61,6 @@ namespace SpaceInvaders
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
 
-            
-
             // Loops...
             do
             {
@@ -77,6 +75,13 @@ namespace SpaceInvaders
 
                 // Check for hits
                 EnemyDestroyedCheck();
+                
+                // Check if the ship was hit
+                if (ShipDestroyedCheck())
+                {
+                    ShipDestroyed();
+                    gameOver = lifes == 0;
+                }
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
@@ -87,6 +92,13 @@ namespace SpaceInvaders
                 // While the game is not over
             } while (!gameOver);
         }
+
+        /// <summary>
+        /// Check if the ship was destroyed
+        /// </summary>
+        private bool ShipDestroyedCheck() =>
+            (objectsCollection[1] as Enemies).
+            CheckShipHit((objectsCollection[0] as Ship).Coordinates);
 
         /// <summary>
         /// Check if an enemy was destroyed
@@ -112,6 +124,64 @@ namespace SpaceInvaders
 
                 (objectsCollection[0] as Ship).ShipBullets.DeleteBullets(bulletsToDelete);
             }
+        }
+
+        private void ShipDestroyed()
+        {
+            lifes--;
+
+            LifeLost();
+
+            NumberManager.WriteLifes(lifes);
+        }
+
+        private void LifeLost()
+        {
+            int timer = (lifes == 0) ? 50 : 150;
+
+            Timer counter = new Timer(timer);
+            Timer blinkCounter = new Timer(8);
+            bool displayLife = true;
+
+            (objectsCollection[0] as Ship).LifeLost = true;
+            (objectsCollection[1] as Enemies).ResetMoveUp();
+            (objectsCollection[1] as Enemies).shipDestroyed = true;
+
+            while (counter.IsCounting())
+            {
+                for (int i = 0; i < objectsCollection.Count; i++)
+                {
+                    (objectsCollection[i] as IGameObject).Update();
+                }
+
+                // Delay the thread by a certain ammout of time so the game can be precieved
+                Thread.Sleep(FAME_TIME);
+                
+                if (!blinkCounter.IsCounting())
+                {
+                    if (displayLife)
+                    {
+                        displayLife = false;
+                        NumberManager.WriteLifes(lifes + 1);
+                        BufferEditor.DisplayRender();
+                        NumberManager.WriteLifes(lifes + 1);
+                    }
+                    else
+                    {
+                        displayLife = true;
+                        NumberManager.DeleteLifes();
+                    }
+                }
+
+                /// Render the frame ///
+                BufferEditor.DisplayRender();
+            }
+
+            (objectsCollection[0] as Ship).Init();
+            (objectsCollection[0] as Ship).LifeLost = false;
+            (objectsCollection[1] as Enemies).shipDestroyed = false;
+
+            NumberManager.WriteLifes(lifes);
         }
 
         private void DisplayHeader()

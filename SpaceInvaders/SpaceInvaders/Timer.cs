@@ -16,7 +16,7 @@ namespace SpaceInvaders
         private int counter;
 
         /// <summary>
-        /// 
+        /// Constructor for the Timer class
         /// </summary>
         /// <param name="limit">How much to count to</param>
         public Timer(int limit)

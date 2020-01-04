@@ -13,8 +13,8 @@ namespace SpaceInvaders
         // Necessary constants to be used in this script
         private const int NUMBER_ROWS = 3;
         private const int SCORE_X_POS = 8;
-        private const int LIFES_X_POS = 37;
-        private const int LEVELS_X_POS = 54;
+        private const int LIFES_X_POS = 54;
+        private const int LEVELS_X_POS = 37;
 
         /// <summary>
         /// Sprite for the number 0
@@ -123,6 +123,16 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Delete the lifes on the buffer
+        /// </summary>
+        /// <param name="lifes">The current number of lifes the player has</param>
+        public static void DeleteLifes()
+        {
+            // Write the number of lifes to the buffer
+            Delete( 0, LIFES_X_POS);
+        }
+
+        /// <summary>
         /// Write the current level the player is in to the buffer
         /// </summary>
         /// <param name="level">The current level the player is in</param>
@@ -133,7 +143,7 @@ namespace SpaceInvaders
         }
 
         /// <summary>
-        /// 
+        /// Writes all numbers to the buffer
         /// </summary>
         /// <param name="value">The value it self (number of lifes, score, etc...)</param>
         /// <param name="format">Used to know how many numbers will represent the value</param>
@@ -166,6 +176,34 @@ namespace SpaceInvaders
                 // Cause we know the string only has numbers convert each char back to a int
                 // To be written to the buffer
                 WriteNumber(int.Parse(numberstr[i].ToString()), xOffset, x);
+
+                // Increase the x offset by 2
+                xOffset += 2;
+            }
+        }
+
+        /// <summary>
+        /// Deletes the number from the buffer
+        /// </summary>
+        /// <param name="format">Used to know how many numbers will represent the value</param>
+        /// <param name="x">The X position to write the numbers</param>
+        private static void Delete(int format, int x)
+        {
+            // Create a new int `xOffset`
+            int xOffset = 0;
+            
+            // Loops the ammount of numbers
+            for (int i = 0; i <= format; i++)
+            {
+                // Loops the ammount of rows
+                for (int j = 0; j < NUMBER_ROWS; j++)
+                {
+                    // Reset the color to black
+                    BufferEditor.SetColor(ConsoleColor.Black);
+
+                    // Deletes the number from the buffer
+                    BufferEditor.Delete(x + xOffset, j + 2, "  ");
+                }
 
                 // Increase the x offset by 2
                 xOffset += 2;

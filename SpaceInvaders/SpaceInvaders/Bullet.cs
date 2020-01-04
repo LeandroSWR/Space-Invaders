@@ -6,8 +6,6 @@ namespace SpaceInvaders
 {
     class Bullet
     {
-        private const int BULLET_SPRITE_HEIGHT = 3;
-
         // The bullet prite
         private char bullet;
 
@@ -20,6 +18,8 @@ namespace SpaceInvaders
         private Vector2 coordinates;
         public Vector2 Coordinates => coordinates;
 
+        public MoveType moveDirection { get; }
+
         /// <summary>
         /// Constructor for the bullet class
         /// </summary>
@@ -28,6 +28,8 @@ namespace SpaceInvaders
         /// <param name="movement">The type of movement the bullet will have (Up/Down)</param>
         public Bullet(int x, int y, MoveType movement) 
         {
+            moveDirection = movement;
+
             // Set the bullet coordinates to the starting position
             coordinates = new Vector2(x, y);
 

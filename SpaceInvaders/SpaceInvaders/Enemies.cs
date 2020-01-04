@@ -14,11 +14,14 @@ namespace SpaceInvaders
         private const int MOVE_INIT_SPEED = 7;
         private const int LEFT_BOUNDARY = 3;
         private const int RIGHT_BOUNDARY = 90;
-        private const int BOTTOM_BOUDARY = 54;
+        private const int LOWER_BOUNDARY = 58;
         private const int MOVE_DOWN_SPEED = 5;
-        private const int MOVE_DOWN_STEPS = 30;
+        private const int MOVE_UP_SPEED = 5;
+        private const int MOVE_UP_STEPS = 15;
         private const int NUMBER_OF_COLUMNS = 7;
-
+        private const int MOVE_SPEED = 2;
+        private const int Y_MIN = 12;
+        
         // The current movement direction of all enemies
         private MoveType currentMove;
 
@@ -34,6 +37,15 @@ namespace SpaceInvaders
         // A timer for the movement
         private Timer moveTimer;
 
+        // A timer for the movement up steps
+        private Timer moveUpSteps;
+
+        // A timer for the movement up speed
+        private Timer moveUpSpeed;
+
+        // Instance of Bullets
+        public Bullets EnemyBullets { get; private set; }
+        
         // If the enemy is on the first sprite
         private bool firstSprite;
 
@@ -42,6 +54,9 @@ namespace SpaceInvaders
 
         // If the enemy will move this frame
         private bool moveEnemy;
+
+        // Check if the ship died
+        public bool shipDestroyed;
 
         public Enemies()
         {
@@ -56,6 +71,15 @@ namespace SpaceInvaders
 
             // Instantiate a new timer for the move down speed
             moveDownTimer = new Timer(MOVE_DOWN_SPEED);
+
+            // Instantiate a new timer for the move up steps
+            moveUpSteps = new Timer(MOVE_UP_STEPS);
+
+            // Instantiate a new timer for the move up speed
+            moveUpSpeed = new Timer(MOVE_UP_SPEED);
+
+            // Instatiate the ship bullets
+            EnemyBullets = new Bullets(LOWER_BOUNDARY, 3, MOVE_SPEED);
 
             // When the game starts the enemie is on the first sprite
             firstSprite = true;
@@ -78,11 +102,74 @@ namespace SpaceInvaders
                 firstSprite = !firstSprite;
             }
 
-            // Update the movement for the enemies
-            Move();
+            EnemyBullets.UpdateBullets();
 
+            if (!shipDestroyed)
+            {
+                Shoot();
+
+                // Update the movement for the enemies
+                Move();
+            } else
+            {
+                MoveUp();
+            }
+            
             // Updates all enemies
             UpdateAllEnemies();
+        }
+
+        public void MoveUp()
+        {
+            if (!moveUpSpeed.IsCounting() && moveUpSteps.IsCounting())
+            {
+                int min = 60;
+                Vector2 coordinate;
+
+                foreach (Enemy enemy in enemies)
+                {
+                    coordinate = enemy.Coordinates;
+
+                    if (min > coordinate.Y)
+                        min = coordinate.Y;
+                }
+
+                if (min > Y_MIN)
+                {
+                    foreach (Enemy enemy in enemies)
+                    {
+                        coordinate = enemy.Coordinates;
+                        BufferEditor.Delete(coordinate.X, coordinate.Y + 2, "       ");
+                        enemy.DecreaseY();
+                    }
+                }
+            }
+        }
+
+        public void ResetMoveUp()
+        {
+            moveUpSteps = new Timer(MOVE_UP_STEPS);
+
+            moveUpSpeed = new Timer(MOVE_UP_SPEED);
+        }
+
+        /// <summary>
+        /// A random enemy is choosen to shoot a bullet
+        /// </summary>
+        private void Shoot()
+        {
+            // Instantiate a new Random
+            Random rnd = new Random();
+
+            // Get a random index from the list of enemies
+            int index = rnd.Next(0, enemies.Count);
+
+            // Get the coordinates of the enemy
+            int x = enemies[index].Coordinates.X + 3;
+            int y = enemies[index].Coordinates.Y + 3;
+
+            // Add a new bullet
+            EnemyBullets.Add(x, y, MoveType.DOWN);
         }
 
         /// <summary>
@@ -123,6 +210,47 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Checks if any of the enemy bullets has it the ship
+        /// </summary>
+        /// <param name="shipCoordinate">The ship's coordinate</param>
+        /// <returns>If the ship was hit</returns>
+        public bool CheckShipHit(Vector2 shipCoordinate)
+        {
+            // Saves the ship location
+            Vector2 coordinate;
+
+            // Go through all existing enemy bullets
+            for (int i = EnemyBullets.BulletsList.Count - 1; i >= 0; i--)
+            {
+                // Save the coordinate on a specific variable
+                coordinate = EnemyBullets.BulletsList[i].Coordinates;
+
+                // Check if there was a collision between the ship and the bullet
+                if ((coordinate.X > shipCoordinate.X + 2 &&
+                    coordinate.X < shipCoordinate.X + 4 &&
+                    coordinate.Y == shipCoordinate.Y) ||
+                    (coordinate.X > shipCoordinate.X + 1 &&
+                    coordinate.X < shipCoordinate.X + 5 &&
+                    coordinate.Y == shipCoordinate.Y + 1) ||
+                    (coordinate.X > shipCoordinate.X &&
+                    coordinate.X < shipCoordinate.X + 6 &&
+                    coordinate.Y == shipCoordinate.Y + 2))
+                {
+                    // Delete the bullet
+                    EnemyBullets.BulletsList[i].Delete();
+
+                    // Remove the bullet from the list
+                    EnemyBullets.BulletsList.Remove(EnemyBullets.BulletsList[i]);
+
+                    // Return true
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Updates all enemies
         /// </summary>
         private void UpdateAllEnemies()
@@ -141,6 +269,11 @@ namespace SpaceInvaders
 
                 // Tell the enemy he can move
                 enemies[i].CanMove = moveEnemy;
+
+                if (shipDestroyed)
+                {
+                    enemies[i].CanMove = false;
+                }
 
                 // Call the update method on this enemy
                 enemies[i].Update();

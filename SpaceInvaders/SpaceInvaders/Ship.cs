@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SpaceInvaders
 {
@@ -9,7 +7,12 @@ namespace SpaceInvaders
         // Constants related to what's done in this script
         private const int LEFT_BOUNDARY = 0;
         private const int RIGHT_BOUNDARY = 93;
+        private const int UPPER_BOUNDARY = 8;
+        private const int BULLET_SPEED = 1;
         private const int MOVE_SPEED = 2;
+        private const int INIT_X = 47;
+        private const int INIT_Y = 55;
+
 
         /// <summary>
         /// The coordinate for the ship
@@ -32,19 +35,22 @@ namespace SpaceInvaders
         // A timer for the movement of the ship
         private Timer moveTimer;
 
+        // Check if a life was lost
+        public bool LifeLost { get; set; }
+
         /// <summary>
         /// Ship Class constructor
         /// </summary>
         public Ship()
         {
             // Set the ship coordinates to the starting position
-            coordinates = new Vector2(47, 55);
+            coordinates = new Vector2(INIT_X, INIT_Y);
 
             // Instantiate a new Key Reader
             keyReader = new KeyReader();
 
             // Instatiate the ship bullets
-            ShipBullets = new Bullets();
+            ShipBullets = new Bullets(UPPER_BOUNDARY, 3, BULLET_SPEED);
 
             // Instantiate a new Timer
             moveTimer = new Timer(MOVE_SPEED);
@@ -57,19 +63,34 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Initializes the ship values
+        /// </summary>
+        public void Init()
+        {
+            coordinates = new Vector2(INIT_X, INIT_Y);
+            currentMove = MoveType.NONE;
+        }
+
+        /// <summary>
         /// The Update method for the ship (Called once every frame)
         /// </summary>
         public void Update()
         {
-            // What to write to the buffer
-            WriteToBuffer();
+            if (!LifeLost)
+            {
+                // What to write to the buffer
+                WriteToBuffer();
+
+                // Check for user input
+                GetInput();
+
+                // Moves the ship
+                Move();
+            } else
+            {
+                Delete();
+            }
             
-            // Check for user input
-            GetInput();
-
-            // Moves the ship
-            Move();
-
             // Update the bullets
             ShipBullets.UpdateBullets();
         }
@@ -87,6 +108,19 @@ namespace SpaceInvaders
             {
                 // Write each string to the buffer
                 BufferEditor.Write(coordinates.X, coordinates.Y + i, sprite[i]);
+            }
+        }
+
+        public void Delete()
+        {
+            // Set the color for the ship to be white
+            BufferEditor.SetColor(ConsoleColor.Black);
+
+            // Go through the ship sprite array
+            for (int i = 0; i < sprite.Length; i++)
+            {
+                // Write each string to the buffer
+                BufferEditor.Delete(coordinates.X, coordinates.Y + i, "         ");
             }
         }
 

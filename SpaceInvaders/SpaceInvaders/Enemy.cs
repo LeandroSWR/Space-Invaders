@@ -111,6 +111,15 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Moves the enemies up
+        /// </summary>
+        public void DecreaseY()
+        {
+            // Move the enemy up
+            coordinates = new Vector2(Coordinates.X, Coordinates.Y - 1);
+        }
+
+        /// <summary>
         /// Deletes the enemy from the buffer
         /// </summary>
         public void Delete()
@@ -118,8 +127,8 @@ namespace SpaceInvaders
             // Go through all the strings in the sprite
             for (int i = 0; i < SPRITE_HEIGTH; i++)
             {
-                // Write to the next buffer an empty string
-                BufferEditor.Write(coordinates.X, coordinates.Y + i, "       ");
+                // Reset the color
+                BufferEditor.SetColor(ConsoleColor.Black);
 
                 // Write to the current buffer an empty string
                 BufferEditor.Delete(coordinates.X, coordinates.Y + i, "       ");
@@ -131,15 +140,21 @@ namespace SpaceInvaders
         /// </summary>
         private void WriteToBuffer()
         {
-            // Set the pixel color
-            BufferEditor.SetColor(myColor);
-
             // Select the correct sprite to render
             currentSprite = FirstSprite ? sprite1 : sprite2;
 
             // Go through the array of strings
             for (int i = 0; i < currentSprite.Length; i++)
             {
+                // Set the pixel color
+                BufferEditor.SetColor(myColor);
+
+                // Write a string to the buffer
+                BufferEditor.Write(0, coordinates.Y + i, " ");
+
+                // Write a string to the buffer
+                BufferEditor.Write(99, coordinates.Y + i, " ");
+
                 // Write each string to the buffer
                 BufferEditor.Write(coordinates.X, coordinates.Y + i, currentSprite[i]);
             }
@@ -154,7 +169,7 @@ namespace SpaceInvaders
             if (IncreaseY)
             {
                 // Clear the area above the enemy
-                BufferEditor.Write(coordinates.X, coordinates.Y, "       ");
+                BufferEditor.SetColor(ConsoleColor.Black);
                 BufferEditor.Delete(coordinates.X, coordinates.Y, "       ");
 
                 // Moves the enemy down

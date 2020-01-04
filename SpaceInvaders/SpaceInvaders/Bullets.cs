@@ -6,13 +6,6 @@ namespace SpaceInvaders
 {
     class Bullets
     {
-        // How fast the bullet goes (per second)
-        private const int MOVE_SPEED = 1;
-
-        // A constant to hold the values of the Y boundry
-        private const int UPPER_BOUNDARY = 7;
-
-
         // List with the current bullets on the scene
         public List<Bullet> BulletsList { get; private set; }
 
@@ -29,14 +22,14 @@ namespace SpaceInvaders
         /// <summary>
         /// `ShipBullets` constructor class
         /// </summary>
-        public Bullets()
+        public Bullets(int endRow, int maxBullets, int moveSpeed)
         {
             // Set the maximum number of bullets
-            maxNumOfBullets = 3;
+            maxNumOfBullets = maxBullets;
 
-            endRow = UPPER_BOUNDARY;
+            this.endRow = endRow;
 
-            moveTimer = new Timer(MOVE_SPEED);
+            moveTimer = new Timer(moveSpeed);
 
             // Initialize a new `List` of `ShipBullets`
             BulletsList = new List<Bullet>(maxNumOfBullets);
@@ -59,7 +52,10 @@ namespace SpaceInvaders
                     BulletsList[i].Update();
 
                     // If the bullet has reached the top part of the level
-                    if (BulletsList[i].Coordinates.Y == endRow)
+                    if ((BulletsList[i].Coordinates.Y >= endRow && 
+                        BulletsList[i].moveDirection == MoveType.DOWN) || 
+                        (BulletsList[i].Coordinates.Y <= endRow && 
+                        BulletsList[i].moveDirection == MoveType.UP))
                     {
                         // Decrease the current number of bullets
                         numOfBullets--;

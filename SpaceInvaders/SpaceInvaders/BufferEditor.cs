@@ -48,6 +48,8 @@ namespace SpaceInvaders
                 // Writes that pixel to the buffer
                 buffer2D.current[x + i, y] = currentPixel;
             }
+
+            BufferEditor.Write(x, y, str);
         }
 
         /// <summary>
