@@ -32,7 +32,7 @@ namespace SpaceInvaders
         }
 
         /// <summary>
-        /// Detelete a string from the current buffer
+        /// Delete a string from the current buffer
         /// </summary>
         /// <param name="x">String x position</param>
         /// <param name="y">String Y position</param>

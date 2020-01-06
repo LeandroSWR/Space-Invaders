@@ -45,7 +45,10 @@ namespace SpaceInvaders
 
         // Instance of Bullets
         public Bullets EnemyBullets { get; private set; }
-        
+
+        // Instantiate a new Random
+        Random rnd = new Random();
+
         // If the enemy is on the first sprite
         private bool firstSprite;
 
@@ -140,10 +143,10 @@ namespace SpaceInvaders
                 Vector2 coordinate;
 
                 // Go through every enemy in the enemies list
-                foreach (Enemy enemy in enemies)
+                for (int i = 0; i < enemies.Count; i++)
                 {
                     // Save it's coordinates
-                    coordinate = enemy.Coordinates;
+                    coordinate = enemies[i].Coordinates;
 
                     // If the min is bigger than the coordinate Y
                     if (min > coordinate.Y)
@@ -157,16 +160,16 @@ namespace SpaceInvaders
                 if (min > Y_MIN)
                 {
                     // Go through every enemy on the enemies list
-                    foreach (Enemy enemy in enemies)
+                    for (int i = 0; i < enemies.Count; i++)
                     {
                         // Save it's coordinates
-                        coordinate = enemy.Coordinates;
+                        coordinate = enemies[i].Coordinates;
 
                         // Delete the under part of the enemy
                         BufferEditor.Delete(coordinate.X, coordinate.Y + 2, "       ");
 
                         // Decrease the enemy Y value
-                        enemy.DecreaseY();
+                        enemies[i].DecreaseY();
                     }
                 }
             }
@@ -189,9 +192,6 @@ namespace SpaceInvaders
         /// </summary>
         private void Shoot()
         {
-            // Instantiate a new Random
-            Random rnd = new Random();
-
             // Get a random index from the list of enemies
             int index = rnd.Next(0, enemies.Count);
 

@@ -198,9 +198,6 @@ namespace SpaceInvaders
                 // Loops the ammount of rows
                 for (int j = 0; j < NUMBER_ROWS; j++)
                 {
-                    // Reset the color to black
-                    BufferEditor.SetColor(ConsoleColor.Black);
-
                     // Deletes the number from the buffer
                     BufferEditor.Delete(x + xOffset, j + 2, "  ");
                 }
@@ -224,11 +221,10 @@ namespace SpaceInvaders
             for (int i = 0; i < NUMBER_ROWS; i++)
             {
                 // Change the color depending on the row
-                BufferEditor.SetColor(
-                    i == 0 ? 
-                    ConsoleColor.White : 
-                    i == 1 ? 
-                    ConsoleColor.Yellow : 
+                BufferEditor.WriteWithColor(0, i + 2, " ", i == 0 ?
+                    ConsoleColor.White :
+                    i == 1 ?
+                    ConsoleColor.Yellow :
                     ConsoleColor.DarkYellow);
 
                 // Write each string to the buffer

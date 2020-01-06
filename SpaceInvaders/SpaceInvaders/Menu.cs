@@ -54,35 +54,35 @@ namespace SpaceInvaders
             // Enemy 1
             for (int i = 0; i < Sprites.enemy1String.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.Green);
+                BufferEditor.WriteWithColor(0, 10 + i, " ", ConsoleColor.Green);
                 BufferEditor.Write(6, 10 + i, Sprites.enemy1String[i]);
                 BufferEditor.Write(85, 10 + i, Sprites.enemy1String[i]);
             }
             // Enemy 2
             for (int i = 0; i < Sprites.enemy2String.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.Cyan);
+                BufferEditor.WriteWithColor(0, 17 + i, " ", ConsoleColor.Cyan);
                 BufferEditor.Write(6, 17 + i, Sprites.enemy2String[i]);
                 BufferEditor.Write(85, 17 + i, Sprites.enemy2String[i]);
             }
             // Enemy 3
             for (int i = 0; i < Sprites.enemy3String.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.Magenta);
+                BufferEditor.WriteWithColor(0, 24 + i, " ", ConsoleColor.Magenta);
                 BufferEditor.Write(6, 24 + i, Sprites.enemy3String[i]);
                 BufferEditor.Write(85, 24 + i, Sprites.enemy3String[i]);
             }
             // Enemy 4
             for (int i = 0; i < Sprites.enemy4String.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.Blue);
+                BufferEditor.WriteWithColor(0, 31 + i, " ", ConsoleColor.Blue);
                 BufferEditor.Write(6, 31 + i, Sprites.enemy4String[i]);
                 BufferEditor.Write(85, 31 + i, Sprites.enemy4String[i]);
             }
             // Enemy 5
             for (int i = 0; i < Sprites.enemy5String.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.DarkGreen);
+                BufferEditor.WriteWithColor(0, 37 + i, " ", ConsoleColor.DarkGreen);
                 BufferEditor.Write(6, 37 + i, Sprites.enemy5String[i]);
                 BufferEditor.Write(85, 37 + i, Sprites.enemy5String[i]);
             }
@@ -90,7 +90,7 @@ namespace SpaceInvaders
             // Display Title
             for (int i = 0; i < Sprites.spaceString.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.Yellow);
+                BufferEditor.WriteWithColor(0, 21 + i, " ", ConsoleColor.Yellow);
                 BufferEditor.Write(21, 21 + i, Sprites.spaceString[i]);
                 BufferEditor.Write(45, 21 + i, Sprites.invadersString[i]);
             }
@@ -98,7 +98,7 @@ namespace SpaceInvaders
             // Display Buttons
             for (int i = 0; i < Sprites.playString.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.White);
+                BufferEditor.WriteWithColor(0, 28 + i, " ", ConsoleColor.White);
                 BufferEditor.Write(22, 28 + i, Sprites.playString[i]);
                 BufferEditor.Write(63, 28 + i, Sprites.quitString[i]);
             }
@@ -106,7 +106,7 @@ namespace SpaceInvaders
             // Display Button Selector
             for (int i = 0; i < Sprites.selectionString.Length; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.White);
+                BufferEditor.WriteWithColor(0, 33 + i, " ", ConsoleColor.White);
                 // If we have the play button selected
                 if (playSelected)
                 {

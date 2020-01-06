@@ -8,7 +8,7 @@ namespace SpaceInvaders
     class Game
     {
         // Constant that holds the frame time
-        private const int FAME_TIME = 20;
+        private const int FAME_TIME = 40;
         private const int START_LIFES = 3;
 
         // The current score
@@ -26,6 +26,18 @@ namespace SpaceInvaders
         // Collection with all the game objects
         List<GameObject> objectsCollection;
 
+        // Create a list of bullets to delete
+        List<Bullet> bulletsToDelete;
+
+        // Create a new list of bullets
+        List<Bullet> bullets;
+
+        // Create a new Timer
+        Timer counter;
+
+        // Create a new blinkCounter
+        Timer blinkCounter;
+
         /// <summary>
         /// Constructor for the Game class
         /// </summary>
@@ -33,6 +45,10 @@ namespace SpaceInvaders
         {
             // Initialize the collection
             objectsCollection = new List<GameObject>();
+
+            bulletsToDelete = new List<Bullet>(20);
+
+            bullets = new List<Bullet>(20);
 
             // Game over is false when the game starts
             gameOver = false;
@@ -49,9 +65,6 @@ namespace SpaceInvaders
         /// </summary>
         public void Loop()
         {
-            // Clears the console
-            Console.Clear();
-
             // Add a ship to the objects collection
             objectsCollection.Add(new Ship());
 
@@ -70,9 +83,15 @@ namespace SpaceInvaders
                 (objectsCollection[i] as GameObject).Start();
             }
 
+            long start;
+
+            int timeToWait;
+
             // Loops...
             do
             {
+                start = DateTime.Now.Ticks / 10000;
+
                 /// Call a global update method ///
                 for (int i = 0; i < objectsCollection.Count; i++)
                 {
@@ -93,11 +112,15 @@ namespace SpaceInvaders
                     gameOver = lifes == 0;
                 }
 
+                long begin = DateTime.Now.Ticks / 10000;
+
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
 
+                timeToWait = (int)(start + FAME_TIME - DateTime.Now.Ticks / 10000);
+
                 // Delay the thread by a certain ammout of time so the game can be precieved
-                Thread.Sleep(FAME_TIME);
+                Thread.Sleep(timeToWait < 0 ? 0 : timeToWait);
 
                 // While the game is not over
             } while (!gameOver);
@@ -115,17 +138,11 @@ namespace SpaceInvaders
         /// </summary>
         private void EnemyDestroyedCheck()
         {
-            // Create a new list of bullets
-            List<Bullet> bullets;
-
-            // Create a new list of bullets to delete
-            List<Bullet> bulletsToDelete;
+            // Clear the bullets to delete list
+            bulletsToDelete.Clear();
 
             // Set bullets to be equal to the bullets list from the ship
             bullets = (objectsCollection[0] as Ship).ShipBullets.BulletsList;
-
-            // Instantiate the bullets to delete list
-            bulletsToDelete = new List<Bullet>(3);
 
             // If there's bullets on the scene
             if (bullets.Count > 0)
@@ -155,7 +172,8 @@ namespace SpaceInvaders
         private void BarrierHitCheck()
         {
             // Create a new list of bullets to delete
-            List<Bullet> bulletsToDelete = new List<Bullet>();
+            bulletsToDelete.Clear();
+
             // Create a new vector2 to hold the bullet coordinate
             Vector2 bulletCoordinate;
 
@@ -186,6 +204,7 @@ namespace SpaceInvaders
             // Clear the list
             bulletsToDelete.Clear();
 
+
             // Go through every bullet on the Enemies bullet list
             foreach (Bullet bullet in (objectsCollection[1] as Enemies).EnemyBullets.BulletsList)
             {
@@ -193,7 +212,7 @@ namespace SpaceInvaders
                 bulletCoordinate = bullet.Coordinates;
 
                 // If that bullet is in range of a barrier
-                if (bulletCoordinate.Y > 49 & bulletCoordinate.Y < 56)
+                if (bulletCoordinate.Y > 50 & bulletCoordinate.Y < 55)
                 {
                     // Check if it hit the barrier
                     if ((objectsCollection[2] as Barriers).DeleteBarrierPart(bulletCoordinate))
@@ -220,10 +239,10 @@ namespace SpaceInvaders
             int timer = (lifes == 0) ? 50 : 150;
 
             // Create a new timer
-            Timer counter = new Timer(timer);
+            counter = new Timer(timer);
 
             // How long it takes for each blink
-            Timer blinkCounter = new Timer(8);
+            blinkCounter = new Timer(8);
 
             // If we wan't to display the lifes
             bool displayLife = true;
@@ -251,7 +270,7 @@ namespace SpaceInvaders
                 }
 
                 // Delay the thread by a certain ammout of time so the game can be precieved
-                Thread.Sleep(FAME_TIME);
+                Thread.Sleep(20);
                 
                 // If the blink counter has stopped counting
                 if (!blinkCounter.IsCounting())
@@ -305,7 +324,8 @@ namespace SpaceInvaders
         private void DisplayHeader()
         {
             // Set the color to red
-            BufferEditor.SetColor(ConsoleColor.Red);
+            BufferEditor.WriteWithColor(0, 0, " ", ConsoleColor.Red);
+            BufferEditor.WriteWithColor(0, 5, " ", ConsoleColor.Red);
 
             // Loop 100 times
             for (int i = 0; i < 100; i++)
@@ -316,7 +336,7 @@ namespace SpaceInvaders
             }
 
             // Change the color to blue
-            BufferEditor.SetColor(ConsoleColor.Blue);
+            BufferEditor.WriteWithColor(0, 1, " ", ConsoleColor.Blue);
 
             // Write to the buffer
             BufferEditor.Write(1, 1, "Score:");

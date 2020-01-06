@@ -127,9 +127,6 @@ namespace SpaceInvaders
             // Go through all the strings in the sprite
             for (int i = 0; i < SPRITE_HEIGTH; i++)
             {
-                // Reset the color
-                BufferEditor.SetColor(ConsoleColor.Black);
-
                 // Write to the current buffer an empty string
                 BufferEditor.Delete(coordinates.X, coordinates.Y + i, "       ");
             }
@@ -146,14 +143,8 @@ namespace SpaceInvaders
             // Go through the array of strings
             for (int i = 0; i < currentSprite.Length; i++)
             {
-                // Set the pixel color
-                BufferEditor.SetColor(myColor);
-
                 // Write a string to the buffer
-                BufferEditor.Write(0, coordinates.Y + i, " ");
-
-                // Write a string to the buffer
-                BufferEditor.Write(99, coordinates.Y + i, " ");
+                BufferEditor.WriteWithColor(0, coordinates.Y + i, " ", myColor);
 
                 // Write each string to the buffer
                 BufferEditor.Write(coordinates.X, coordinates.Y + i, currentSprite[i]);
@@ -169,7 +160,7 @@ namespace SpaceInvaders
             if (IncreaseY)
             {
                 // Clear the area above the enemy
-                BufferEditor.SetColor(ConsoleColor.Black);
+                BufferEditor.WriteWithColor(0, coordinates.Y, " ", ConsoleColor.Black);
                 BufferEditor.Delete(coordinates.X, coordinates.Y, "       ");
 
                 // Moves the enemy down

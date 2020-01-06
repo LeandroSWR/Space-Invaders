@@ -49,6 +49,8 @@ namespace SpaceInvaders
         {
             // Write to the buffer
             BufferEditor.Delete(coordinates.X, coordinates.Y, bullet.ToString());
+
+            BufferEditor.WriteWithColor(0, coordinates.Y, " ", ConsoleColor.White);
         }
 
         /// <summary>

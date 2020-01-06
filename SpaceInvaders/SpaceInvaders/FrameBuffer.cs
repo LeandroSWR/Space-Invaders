@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Linq;
 
 namespace SpaceInvaders
 {
@@ -6,9 +8,14 @@ namespace SpaceInvaders
     {
         public Pixel[,] current;
         private Pixel[,] next;
+        private Pixel[,] aux;
 
         public int XDim => next.GetLength(0);
         public int YDim => next.GetLength(1);
+
+        char[] charsCurrent;
+
+        long start;
 
         public Pixel this[int x, int y] {
             get => current[x, y];
@@ -26,6 +33,7 @@ namespace SpaceInvaders
                 {
                     next[j, i].pixelChar = ' ';
                     current[j, i].pixelChar = ' ';
+                    Console.Write(' ');
                 }
             }
         }
@@ -35,12 +43,16 @@ namespace SpaceInvaders
             current = new Pixel[x, y];
             next = new Pixel[x, y];
 
+            charsCurrent = new char[x];
+
+            start = 0;
+
             Clear();
         }
         
         public void Swap()
         {
-            Pixel[,] aux = current;
+            aux = current;
             current = next;
             next = aux;
         }
@@ -49,37 +61,23 @@ namespace SpaceInvaders
         {
             Console.SetCursorPosition(0, 0);
 
-            Console.BackgroundColor = ConsoleColor.Black;
-
             ConsoleColor currentForeground = ConsoleColor.Black;
-
-            string s = "";
-            string p = "";
 
             for (int y = 0; y < YDim; y++)
             {
                 for (int x = 0; x < XDim; x++)
                 {
-                    if (!current[x, y].pixelColor.Equals(ConsoleColor.Black) &&
-                        !current[x, y].pixelColor.Equals(currentForeground))
-                    {
-                        currentForeground = current[x, y].pixelColor;
-                        Console.ForegroundColor = current[x, y].pixelColor;
-                    }
-
-                    s += current[x, y].pixelChar;
-                    p += next[x, y].pixelChar;
+                    charsCurrent[x] = current[x, y].pixelChar;
                 }
 
-                if (s != p)
+                if (!current[0, y].pixelColor.Equals(currentForeground))
                 {
-                    Console.WriteLine(s);
-                } else
-                {
-                    Console.SetCursorPosition(0, y + 1);
+                    currentForeground = current[0, y].pixelColor;
+                    Console.ForegroundColor = currentForeground;
+
                 }
-                
-                s = "";
+
+                Console.WriteLine(charsCurrent);
             }
         }
     }

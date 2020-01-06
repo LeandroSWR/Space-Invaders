@@ -30,7 +30,7 @@ namespace SpaceInvaders
 
             coordinates = new Vector2(x, y);
 
-            barrierGrid = new int[BARRIER_WIDTH][];
+            barrierGrid = new int[BARRIER_HEIGHT][];
 
             for (int i = 0; i < BARRIER_HEIGHT; i++)
             {
@@ -50,9 +50,7 @@ namespace SpaceInvaders
         {
             for (int i = 0; i < BARRIER_HEIGHT; i++)
             {
-                BufferEditor.SetColor(ConsoleColor.Green);
-                BufferEditor.Write(0, coordinates.Y + i - 1, " ");
-                BufferEditor.Write(99, coordinates.Y + i - 1, " ");
+                BufferEditor.WriteWithColor(0, coordinates.Y + i - 1, " ", ConsoleColor.Green);
             }
         }
 
@@ -78,7 +76,7 @@ namespace SpaceInvaders
         public bool IsNotDestroyed(Vector2 bulletCoordinate) =>
             bulletCoordinate.X >= coordinates.X &&
             bulletCoordinate.X < coordinates.X + BARRIER_WIDTH &&
-            (barrierGrid[bulletCoordinate.Y - coordinates.Y + 1][bulletCoordinate.X - coordinates.X] == 1);
+            (barrierGrid[Math.Clamp(bulletCoordinate.Y - coordinates.Y + 1, 0, 3)][bulletCoordinate.X - coordinates.X] == 1);
 
         /// <summary>
         /// 
@@ -86,7 +84,7 @@ namespace SpaceInvaders
         /// <param name="bulletCoordinate">The bullet coordinate</param>
         public void SetDestroyed(Vector2 bulletCoordinate)
         {
-            barrierGrid[bulletCoordinate.Y - coordinates.Y + 1][bulletCoordinate.X - coordinates.X] = 0;
+            barrierGrid[Math.Clamp(bulletCoordinate.Y - coordinates.Y + 1, 0, 3)][bulletCoordinate.X - coordinates.X] = 0;
         }
     }
 }

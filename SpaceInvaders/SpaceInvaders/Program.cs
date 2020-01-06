@@ -12,9 +12,6 @@ namespace SpaceInvaders
             // Set the window size for the console
             Console.SetWindowSize(100, 61);
 
-            // Clears the console
-            Console.Clear();
-
             // Instantiate a new Menu
             Menu menu = new Menu();
 

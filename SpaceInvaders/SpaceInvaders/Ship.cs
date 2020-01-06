@@ -100,27 +100,26 @@ namespace SpaceInvaders
         /// </summary>
         private void WriteToBuffer()
         {
-            // Set the color for the ship to be white
-            BufferEditor.SetColor(ConsoleColor.White);
-
             // Go through the ship sprite array
             for (int i = 0; i < sprite.Length; i++)
             {
                 // Write each string to the buffer
                 BufferEditor.Write(coordinates.X, coordinates.Y + i, sprite[i]);
+
+                // Set the color to white
+                BufferEditor.WriteWithColor(0, coordinates.Y + i, " ", ConsoleColor.White);
             }
         }
 
         public void Delete()
         {
-            // Set the color for the ship to be white
-            BufferEditor.SetColor(ConsoleColor.Black);
-
             // Go through the ship sprite array
             for (int i = 0; i < sprite.Length; i++)
             {
                 // Write each string to the buffer
                 BufferEditor.Delete(coordinates.X, coordinates.Y + i, "         ");
+
+                BufferEditor.WriteWithColor(0, coordinates.Y + i, " ", ConsoleColor.Black);
             }
         }
 
@@ -149,7 +148,7 @@ namespace SpaceInvaders
                     break;
                 // If the user pressed space bar
                 case ConsoleKey.Spacebar:
-                    ShipBullets.Add(coordinates.X + 3, coordinates.Y - 1, MoveType.UP);
+                    ShipBullets.Add(coordinates.X + 3, coordinates.Y, MoveType.UP);
                     break;
             }
         }
