@@ -21,9 +21,6 @@ namespace SpaceInvaders
         // If the quit button is selected
         private bool quitSelected;
 
-        // Class with all the sprites to be used in the menu
-        private Sprites mySprites;
-
         // Holds a game instance
         private Game game;
 
@@ -32,9 +29,6 @@ namespace SpaceInvaders
         /// </summary>
         public Menu() 
         {
-            // Instantiate the sprites
-            mySprites = new Sprites();
-
             // Instantiate a new Game
             game = new Game();
 
@@ -111,15 +105,15 @@ namespace SpaceInvaders
                 if (playSelected)
                 {
                     // Draw the ship bellow the play button
-                    BufferEditor.Write(27, 33 + i, Sprites.selectionString[i]);
-                    BufferEditor.Write(67, 33 + i, "      ");
+                    BufferEditor.Write(PLAY_X_SELECTION, Y_SELECTION + i, Sprites.selectionString[i]);
+                    BufferEditor.Write(QUIT_X_SELECTION, Y_SELECTION + i, "      ");
                 } 
                 // If we have the quit button selected
                 else if (quitSelected)
                 {
                     // Draw the ship bellow the quit button
-                    BufferEditor.Write(67, 33 + i, Sprites.selectionString[i]);
-                    BufferEditor.Write(27, 33 + i, "      ");
+                    BufferEditor.Write(QUIT_X_SELECTION, Y_SELECTION + i, Sprites.selectionString[i]);
+                    BufferEditor.Write(PLAY_X_SELECTION, Y_SELECTION + i, "      ");
                 }
             }
 

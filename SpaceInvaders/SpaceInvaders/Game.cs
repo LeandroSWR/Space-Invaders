@@ -9,6 +9,7 @@ namespace SpaceInvaders
     {
         // Constant that holds the frame time
         private const int FAME_TIME = 40;
+        private const int BASE_DELAY = 25;
         private const int START_LIFES = 3;
 
         // The current score
@@ -80,12 +81,15 @@ namespace SpaceInvaders
             /// Call a global Start method ///
             for (int i = 0; i < objectsCollection.Count; i++)
             {
-                (objectsCollection[i] as GameObject).Start();
+                objectsCollection[i].Start();
             }
 
             long start;
 
             int timeToWait;
+
+            // Calls the get ready animation before the game starts
+            GetReady();
 
             // Loops...
             do
@@ -95,7 +99,7 @@ namespace SpaceInvaders
                 /// Call a global update method ///
                 for (int i = 0; i < objectsCollection.Count; i++)
                 {
-                    (objectsCollection[i] as GameObject).Update();
+                    objectsCollection[i].Update();
                 }
 
                 // Displays the header
@@ -124,6 +128,40 @@ namespace SpaceInvaders
 
                 // While the game is not over
             } while (!gameOver);
+        }
+
+        private void GetReady()
+        {
+            Timer counter = new Timer(160);
+            Timer blinker = new Timer(9);
+            bool displayText = true;
+
+            while (counter.IsCounting())
+            {
+                if (!blinker.IsCounting())
+                {
+                    displayText = !displayText;
+
+                    if (displayText)
+                    {
+                        BufferEditor.WriteWithColor(0, 50, " ", ConsoleColor.Yellow);
+                        BufferEditor.Delete(45, 50, "Get Ready!");
+                    }
+                    else
+                    {
+                        BufferEditor.Delete(45, 50, "          ");
+                    }
+                }
+
+                (objectsCollection[1] as Enemies).MoveDown();
+
+                /// Render the frame ///
+                BufferEditor.DisplayRender();
+
+                Thread.Sleep(BASE_DELAY);
+            }
+
+            BufferEditor.Write(45, 50, "          ");
         }
 
         /// <summary>
@@ -270,7 +308,7 @@ namespace SpaceInvaders
                 }
 
                 // Delay the thread by a certain ammout of time so the game can be precieved
-                Thread.Sleep(20);
+                Thread.Sleep(BASE_DELAY);
                 
                 // If the blink counter has stopped counting
                 if (!blinkCounter.IsCounting())

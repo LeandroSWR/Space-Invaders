@@ -8,19 +8,23 @@
     ".NETCoreApp,Version=v3.0": []
   },
   "packageFolders": {
-    "C:\\Users\\GamingMachine\\.nuget\\packages\\": {}
+    "C:\\Users\\Shadow\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\GamingMachine\\Desktop\\Space Invaders\\SpaceInvaders\\SpaceInvaders\\SpaceInvaders.csproj",
+      "projectUniqueName": "C:\\Users\\Shadow\\Desktop\\New folder\\Space Invaders\\SpaceInvaders\\SpaceInvaders\\SpaceInvaders.csproj",
       "projectName": "SpaceInvaders",
-      "projectPath": "C:\\Users\\GamingMachine\\Desktop\\Space Invaders\\SpaceInvaders\\SpaceInvaders\\SpaceInvaders.csproj",
-      "packagesPath": "C:\\Users\\GamingMachine\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\GamingMachine\\Desktop\\Space Invaders\\SpaceInvaders\\SpaceInvaders\\obj\\",
+      "projectPath": "C:\\Users\\Shadow\\Desktop\\New folder\\Space Invaders\\SpaceInvaders\\SpaceInvaders\\SpaceInvaders.csproj",
+      "packagesPath": "C:\\Users\\Shadow\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Shadow\\Desktop\\New folder\\Space Invaders\\SpaceInvaders\\SpaceInvaders\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\GamingMachine\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Shadow\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

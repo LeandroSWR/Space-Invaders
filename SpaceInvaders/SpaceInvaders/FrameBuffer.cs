@@ -15,8 +15,6 @@ namespace SpaceInvaders
 
         char[] charsCurrent;
 
-        long start;
-
         public Pixel this[int x, int y] {
             get => current[x, y];
             set => next[x, y] = value;
@@ -44,8 +42,6 @@ namespace SpaceInvaders
             next = new Pixel[x, y];
 
             charsCurrent = new char[x];
-
-            start = 0;
 
             Clear();
         }

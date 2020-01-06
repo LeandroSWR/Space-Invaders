@@ -120,6 +120,15 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Moves the enemies down
+        /// </summary>
+        public void YIncreasse()
+        {
+            // Move the enemy up
+            coordinates = new Vector2(Coordinates.X, Coordinates.Y + 1);
+        }
+
+        /// <summary>
         /// Deletes the enemy from the buffer
         /// </summary>
         public void Delete()
@@ -147,7 +156,7 @@ namespace SpaceInvaders
                 BufferEditor.WriteWithColor(0, coordinates.Y + i, " ", myColor);
 
                 // Write each string to the buffer
-                BufferEditor.Write(coordinates.X, coordinates.Y + i, currentSprite[i]);
+                BufferEditor.Delete(coordinates.X, coordinates.Y + i, currentSprite[i]);
             }
         }
 

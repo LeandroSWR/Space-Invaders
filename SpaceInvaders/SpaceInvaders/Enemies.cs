@@ -11,14 +11,16 @@ namespace SpaceInvaders
     {
         // Constants related to what's done in this script
         private const int ANIMATION_INIT_SPEED = 12;
-        private const int MOVE_INIT_SPEED = 7;
-        private const int LEFT_BOUNDARY = 3;
+        private const int NUMBER_OF_COLUMNS = 7;
+        private const int MOVE_DOWN_STEPS = 30;
         private const int RIGHT_BOUNDARY = 90;
         private const int LOWER_BOUNDARY = 58;
         private const int MOVE_DOWN_SPEED = 5;
-        private const int MOVE_UP_SPEED = 5;
+        private const int MOVE_INIT_SPEED = 7;
         private const int MOVE_UP_STEPS = 15;
-        private const int NUMBER_OF_COLUMNS = 7;
+        private const int MOVE_UP_SPEED = 5;
+        private const int TOP_START_ROW = 6;
+        private const int LEFT_BOUNDARY = 3;
         private const int MOVE_SPEED = 2;
         private const int Y_MIN = 12;
         
@@ -48,6 +50,9 @@ namespace SpaceInvaders
 
         // Instantiate a new Random
         Random rnd = new Random();
+
+        // The step ammount to move the enemy down
+        private int moveDownSteps;
 
         // If the enemy is on the first sprite
         private bool firstSprite;
@@ -170,6 +175,46 @@ namespace SpaceInvaders
 
                         // Decrease the enemy Y value
                         enemies[i].DecreaseY();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves all enemies down
+        /// </summary>
+        public void MoveDown()
+        {
+            // If the animation timer has finished counting
+            if (!animationTimer.IsCounting())
+            {
+                // Change the sprite to animate the enemy
+                firstSprite = !firstSprite;
+            }
+
+            if (!moveDownTimer.IsCounting())
+            {
+                moveDownSteps++;
+
+                if (moveDownSteps > MOVE_DOWN_STEPS) return;
+
+                Vector2 coordinate;
+
+                foreach (Enemy enemy in enemies)
+                {
+                    coordinate = enemy.Coordinates;
+
+                    enemy.CanMove = false;
+
+                    enemy.FirstSprite = firstSprite;
+
+                    enemy.YIncreasse();
+
+                    if (coordinate.Y > TOP_START_ROW)
+                    {
+                        BufferEditor.Delete(coordinate.X, coordinate.Y, "       ");
+
+                        enemy.Update();
                     }
                 }
             }
@@ -362,12 +407,12 @@ namespace SpaceInvaders
         {
             for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
             {
-                enemies.Add(new Enemy(i * 8, 8, ConsoleColor.Green, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, 12, ConsoleColor.Green, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, 16, ConsoleColor.Cyan, EnemyType.TWO));
-                enemies.Add(new Enemy(i * 8, 20, ConsoleColor.Cyan, EnemyType.TWO));
-                enemies.Add(new Enemy(i * 8, 24, ConsoleColor.Magenta, EnemyType.THREE));
-                enemies.Add(new Enemy(i * 8, 28, ConsoleColor.Magenta, EnemyType.THREE));
+                enemies.Add(new Enemy(i * 8, -20, ConsoleColor.Green, EnemyType.ONE));
+                enemies.Add(new Enemy(i * 8, -16, ConsoleColor.Green, EnemyType.ONE));
+                enemies.Add(new Enemy(i * 8, -12, ConsoleColor.Cyan, EnemyType.TWO));
+                enemies.Add(new Enemy(i * 8, -8, ConsoleColor.Cyan, EnemyType.TWO));
+                enemies.Add(new Enemy(i * 8, -4, ConsoleColor.Magenta, EnemyType.THREE));
+                enemies.Add(new Enemy(i * 8, 0, ConsoleColor.Magenta, EnemyType.THREE));
             }
         }
     }
