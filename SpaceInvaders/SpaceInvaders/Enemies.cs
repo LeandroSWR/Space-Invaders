@@ -133,8 +133,6 @@ namespace SpaceInvaders
             // Updates all enemies
             UpdateAllEnemies();
 
-            // Checks if any enemy has reached the end of the screen
-            HasReachedBottom();
         }
 
         /// <summary>
@@ -456,8 +454,11 @@ namespace SpaceInvaders
         /// <summary>
         /// Checks if an enemy has reached the bottom of the screen
         /// </summary>
-        private void HasReachedBottom()
+        public bool HasReachedBottom()
         {
+            // Create a new bool for the return value
+            bool retVal = false;
+
             // Go through every enemy on the enemy list
             for (int i = EnemyList.Count - 1; i >= 0; i--)
             {
@@ -469,8 +470,14 @@ namespace SpaceInvaders
 
                     // Remove it from the list
                     EnemyList.Remove(EnemyList[i]);
+
+                    // Sets the return value to true
+                    retVal = true;
                 }
             }
+
+            // Return `reVal`
+            return retVal;
         }
     }
 }

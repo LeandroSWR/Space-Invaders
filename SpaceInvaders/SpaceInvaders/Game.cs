@@ -191,7 +191,7 @@ namespace SpaceInvaders
         /// Check if the ship was destroyed
         /// </summary>
         private bool ShipDestroyedCheck() =>
-            enemies.CheckShipHit(ship.Coordinates);
+            enemies.CheckShipHit(ship.Coordinates) || enemies.HasReachedBottom();
 
         /// <summary>
         /// Check if an enemy was destroyed

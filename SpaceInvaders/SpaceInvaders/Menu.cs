@@ -175,6 +175,9 @@ namespace SpaceInvaders
                     {
                         // Start the game
                         game.Loop();
+
+                        // Render the menu
+                        RenderMenu();
                     }
                     else
                     {
