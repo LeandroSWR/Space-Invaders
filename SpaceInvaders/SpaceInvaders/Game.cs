@@ -50,6 +50,9 @@ namespace SpaceInvaders
         // Instance of the barriers
         Barriers barriers;
 
+        // Instance of the ovni
+        Ovni ovni;
+
         /// <summary>
         /// Constructor for the Game class
         /// </summary>
@@ -59,7 +62,7 @@ namespace SpaceInvaders
             lifes = START_LIFES;
 
             // Initialize the level at 1
-            level = 30;
+            level = 1;
 
             // Initialize the collection
             objectsCollection = new List<GameObject>();
@@ -75,6 +78,9 @@ namespace SpaceInvaders
 
             // Instantiate new Barriers
             barriers = new Barriers();
+
+            // Instantiate a new Ovni
+            ovni = new Ovni();
 
             // Game over is false when the game starts
             gameOver = false;
@@ -96,6 +102,8 @@ namespace SpaceInvaders
 
             // Add the barriers to the objects collection
             objectsCollection.Add(barriers);
+
+            objectsCollection.Add(ovni);
 
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
@@ -132,6 +140,7 @@ namespace SpaceInvaders
 
                 // Check for hits
                 EnemyDestroyedCheck();
+                OvniDestroyedCheck();
                 BarrierHitCheck();
 
                 // If there's no enemies left
@@ -249,6 +258,46 @@ namespace SpaceInvaders
 
                 // Delete the bullets
                 ship.ShipBullets.DeleteBullets(bulletsToDelete);
+            }
+        }
+
+        /// <summary>
+        /// Checks if the Ovni was hit by a ship bullet
+        /// </summary>
+        private void OvniDestroyedCheck()
+        {
+            // If the ovni is flying
+            if (ovni.IsFlying())
+            {
+                // Clear the bullets to delete list
+                bulletsToDelete.Clear();
+
+                // Go through every bullet on the ship's bullet list
+                foreach (Bullet bullet in ship.ShipBullets.BulletsList)
+                {
+                    // If a bullet hit the ovni
+                    if (ovni.IsDestroyed(bullet.Coordinates))
+                    {
+                        // Instantiate a new Ovni
+                        ovni = new Ovni();
+
+                        // Increase the score by 1000
+                        score += 1000;
+
+                        // Add the bullet to the bullets to delete list
+                        bulletsToDelete.Add(bullet);
+
+                        // Break from the foreach
+                        break;
+                    }
+                }
+
+                // If there's bullets in the list
+                if (bulletsToDelete.Count > 0)
+                {
+                    // Delete them
+                    ship.ShipBullets.DeleteBullets(bulletsToDelete);
+                }
             }
         }
 
