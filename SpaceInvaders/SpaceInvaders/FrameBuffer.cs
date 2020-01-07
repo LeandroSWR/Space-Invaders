@@ -31,8 +31,10 @@ namespace SpaceInvaders
                 {
                     next[j, i].pixelChar = ' ';
                     current[j, i].pixelChar = ' ';
-                    Console.Write(' ');
+                    charsCurrent[i] = ' ';
                 }
+
+                Console.WriteLine(charsCurrent);
             }
         }
 

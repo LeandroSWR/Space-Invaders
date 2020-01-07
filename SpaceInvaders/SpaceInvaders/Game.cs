@@ -39,6 +39,15 @@ namespace SpaceInvaders
         // Create a new blinkCounter
         Timer blinkCounter;
 
+        // Instance of the ship
+        Ship ship;
+
+        // Instance of the enemies
+        Enemies enemies;
+
+        // Instance of the barriers
+        Barriers barriers;
+
         /// <summary>
         /// Constructor for the Game class
         /// </summary>
@@ -47,9 +56,17 @@ namespace SpaceInvaders
             // Initialize the collection
             objectsCollection = new List<GameObject>();
 
+            // Initialize the list of bullets to delete
             bulletsToDelete = new List<Bullet>(20);
 
+            // Initialize the list of bullets
             bullets = new List<Bullet>(20);
+
+            // Instantiate new enemies
+            enemies = new Enemies();
+
+            // Instantiate new Barriers
+            barriers = new Barriers();
 
             // Game over is false when the game starts
             gameOver = false;
@@ -66,14 +83,17 @@ namespace SpaceInvaders
         /// </summary>
         public void Loop()
         {
+            // Intantiate a new ship
+            ship = new Ship();
+
             // Add a ship to the objects collection
-            objectsCollection.Add(new Ship());
+            objectsCollection.Add(ship);
 
             // Add the enemies to the objects collection
-            objectsCollection.Add(new Enemies());
+            objectsCollection.Add(enemies);
 
             // Add the barriers to the objects collection
-            objectsCollection.Add(new Barriers());
+            objectsCollection.Add(barriers);
 
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
@@ -116,7 +136,10 @@ namespace SpaceInvaders
                     gameOver = lifes == 0;
                 }
 
-                long begin = DateTime.Now.Ticks / 10000;
+                if (enemies.EnemyList.Count == 0)
+                {
+                    LevelCompleted();
+                }
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
@@ -138,22 +161,22 @@ namespace SpaceInvaders
 
             while (counter.IsCounting())
             {
-                if (!blinker.IsCounting())
-                {
-                    displayText = !displayText;
+                // Displays the header
+                DisplayHeader();
 
-                    if (displayText)
-                    {
-                        BufferEditor.WriteWithColor(0, 50, " ", ConsoleColor.Yellow);
-                        BufferEditor.Delete(45, 50, "Get Ready!");
-                    }
-                    else
-                    {
-                        BufferEditor.Delete(45, 50, "          ");
-                    }
+                displayText = !blinker.IsCounting() ? !displayText : displayText;
+
+                if (displayText)
+                {
+                    BufferEditor.WriteWithColor(0, 50, " ", ConsoleColor.Yellow);
+                    BufferEditor.Write(45, 50, "Get Ready!");
+                }
+                else
+                {
+                    BufferEditor.Delete(45, 50, "          ");
                 }
 
-                (objectsCollection[1] as Enemies).MoveDown();
+                enemies.MoveDown();
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
@@ -168,8 +191,7 @@ namespace SpaceInvaders
         /// Check if the ship was destroyed
         /// </summary>
         private bool ShipDestroyedCheck() =>
-            (objectsCollection[1] as Enemies).
-            CheckShipHit((objectsCollection[0] as Ship).Coordinates);
+            enemies.CheckShipHit(ship.Coordinates);
 
         /// <summary>
         /// Check if an enemy was destroyed
@@ -180,7 +202,7 @@ namespace SpaceInvaders
             bulletsToDelete.Clear();
 
             // Set bullets to be equal to the bullets list from the ship
-            bullets = (objectsCollection[0] as Ship).ShipBullets.BulletsList;
+            bullets = ship.ShipBullets.BulletsList;
 
             // If there's bullets on the scene
             if (bullets.Count > 0)
@@ -189,7 +211,7 @@ namespace SpaceInvaders
                 for (int i = 0; i < bullets.Count; i++)
                 {
                     // If the bullet has hit an enemy
-                    if ((objectsCollection[1] as Enemies).CheckHit(bullets[i].Coordinates))
+                    if (enemies.CheckHit(bullets[i].Coordinates))
                     {
                         // Add the bullet to the bullets to delete
                         bulletsToDelete.Add(bullets[i]);
@@ -200,7 +222,7 @@ namespace SpaceInvaders
                 }
 
                 // Delete the bullets
-                (objectsCollection[0] as Ship).ShipBullets.DeleteBullets(bulletsToDelete);
+                ship.ShipBullets.DeleteBullets(bulletsToDelete);
             }
         }
 
@@ -216,7 +238,7 @@ namespace SpaceInvaders
             Vector2 bulletCoordinate;
 
             // Go through every bullet on the ship's bullet list
-            foreach (Bullet bullet in (objectsCollection[0] as Ship).ShipBullets.BulletsList)
+            foreach (Bullet bullet in ship.ShipBullets.BulletsList)
             {
                 // Save it's coordinate to the vector2
                 bulletCoordinate = bullet.Coordinates;
@@ -225,7 +247,7 @@ namespace SpaceInvaders
                 if (bulletCoordinate.Y > 49 && bulletCoordinate.Y < 56)
                 {
                     // Check if it hit the barrier
-                    if ((objectsCollection[2] as Barriers).DeleteBarrierPart(bulletCoordinate))
+                    if (barriers.DeleteBarrierPart(bulletCoordinate))
                     {
                         // Add the bullet to the bullets to delete list
                         bulletsToDelete.Add(bullet);
@@ -237,14 +259,14 @@ namespace SpaceInvaders
             }
 
             // Delete all the bullets that hit the barrier
-            (objectsCollection[0] as Ship).ShipBullets.DeleteBullets(bulletsToDelete);
+            ship.ShipBullets.DeleteBullets(bulletsToDelete);
 
             // Clear the list
             bulletsToDelete.Clear();
 
 
             // Go through every bullet on the Enemies bullet list
-            foreach (Bullet bullet in (objectsCollection[1] as Enemies).EnemyBullets.BulletsList)
+            foreach (Bullet bullet in enemies.EnemyBullets.BulletsList)
             {
                 // Save it's coordinate to the vector2
                 bulletCoordinate = bullet.Coordinates;
@@ -253,7 +275,7 @@ namespace SpaceInvaders
                 if (bulletCoordinate.Y > 50 & bulletCoordinate.Y < 55)
                 {
                     // Check if it hit the barrier
-                    if ((objectsCollection[2] as Barriers).DeleteBarrierPart(bulletCoordinate))
+                    if (barriers.DeleteBarrierPart(bulletCoordinate))
                     {
                         // Add the bullet to the bullets to delete list
                         bulletsToDelete.Add(bullet);
@@ -265,7 +287,7 @@ namespace SpaceInvaders
             }
 
             // Delete all the bullets that hit the barrier
-            (objectsCollection[1] as Enemies).EnemyBullets.DeleteBullets(bulletsToDelete);
+            enemies.EnemyBullets.DeleteBullets(bulletsToDelete);
         }
 
         /// <summary>
@@ -289,13 +311,13 @@ namespace SpaceInvaders
             lifes--;
 
             // Set the life lost to true
-            (objectsCollection[0] as Ship).LifeLost = true;
+            ship.LifeLost = true;
 
             // Reset the Enemies Move Up
-            (objectsCollection[1] as Enemies).ResetMoveUp();
+            enemies.ResetMoveUp();
 
             // Set the ship destroyed true
-            (objectsCollection[1] as Enemies).shipDestroyed = true;
+            enemies.shipDestroyed = true;
 
             // While the counter is counting
             while (counter.IsCounting())
@@ -304,7 +326,7 @@ namespace SpaceInvaders
                 for (int i = 0; i < objectsCollection.Count; i++)
                 {
                     // Update them
-                    (objectsCollection[i] as IGameObject).Update();
+                    (objectsCollection[i] as GameObject).Update();
                 }
 
                 // Delay the thread by a certain ammout of time so the game can be precieved
@@ -344,16 +366,102 @@ namespace SpaceInvaders
             }
 
             // Reset the ship values
-            (objectsCollection[0] as Ship).Init();
+            ship.Init();
 
             // Set the life lost to false
-            (objectsCollection[0] as Ship).LifeLost = false;
+            ship.LifeLost = false;
 
             // Set the ship destroyed to false
-            (objectsCollection[1] as Enemies).shipDestroyed = false;
+            enemies.shipDestroyed = false;
 
             // Display the lifes
             NumberManager.WriteLifes(lifes);
+        }
+
+        /// <summary>
+        /// Is called when the level is completed to play animations and initialise the next level
+        /// </summary>
+        private void LevelCompleted()
+        {
+            // Create a new timer to be a counter for the animations duration
+            Timer counter = new Timer(201);
+
+            // Create a new timer for the blinking animation
+            Timer blinker = new Timer(9);
+
+            // Create a new bool
+            bool displayScore = false;
+
+            // Clears the buffer
+            BufferEditor.ClearBuffer();
+
+            // Loops while the counter is counting
+            while (counter.IsCounting())
+            {
+                // Sets the display score to true or false depending on the counter
+                displayScore = !blinker.IsCounting() ? !displayScore : displayScore;
+
+                // If displayScore is true
+                if (displayScore)
+                {
+                    // Write an informational text saying that the level was completed
+                    BufferEditor.WriteWithColor(0, 22, " ", ConsoleColor.Yellow);
+                    BufferEditor.WriteWithColor(0, 24, " ", ConsoleColor.Yellow);
+                    BufferEditor.Delete(36, 22, "L E V E L  C O M P L E T E D!");
+                    BufferEditor.Delete(38, 24, "Level bonus 1000 points!");
+                    NumberManager.WriteLevel(level);
+                }
+                else
+                {
+                    // Delete the previously written text
+                    BufferEditor.Write(36, 22, "                             ");
+                    BufferEditor.Write(38, 24, "                        ");
+                    NumberManager.DeleteLevel();
+                }
+
+                // Updates the score
+                score += 5;
+                NumberManager.WriteScore(score);
+
+                // Updates the header
+                DisplayHeader();
+
+                BufferEditor.DisplayRender();
+
+                Thread.Sleep(20);
+            }
+
+            // Removes the text in the middle of the screen
+            BufferEditor.Write(36, 22, "                             ");
+            BufferEditor.Write(38, 24, "                        ");
+
+            // Increases the level
+            level++;
+
+            // Updates the level number
+            NumberManager.WriteLevel(level);
+
+            // Delays for 800 miliseconds
+            Thread.Sleep(800);
+
+            // Initializes the next level
+            InitNextLevel();
+        }
+
+        /// <summary>
+        /// Initialize the next level
+        /// </summary>
+        private void InitNextLevel()
+        {
+            ship.Init();
+            enemies = new Enemies();
+            barriers = new Barriers();
+            barriers.Start();
+            objectsCollection.Clear();
+            objectsCollection.Add(ship);
+            objectsCollection.Add(enemies);
+            objectsCollection.Add(barriers);
+            GetReady();
         }
 
         /// <summary>

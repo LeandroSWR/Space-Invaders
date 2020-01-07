@@ -21,14 +21,14 @@ namespace SpaceInvaders
         private const int MOVE_UP_SPEED = 5;
         private const int TOP_START_ROW = 6;
         private const int LEFT_BOUNDARY = 3;
-        private const int MOVE_SPEED = 2;
+        private const int BULLET_MOVE_SPEED = 2;
         private const int Y_MIN = 12;
         
         // The current movement direction of all enemies
         private MoveType currentMove;
 
         // A list with all the enemies
-        private List<Enemy> enemies;
+        public List<Enemy> EnemyList { get; private set; }
 
         // A timer for the animation
         private Timer animationTimer;
@@ -69,7 +69,7 @@ namespace SpaceInvaders
         public Enemies()
         {
             // Initialize the list
-            enemies = new List<Enemy>();
+            EnemyList = new List<Enemy>();
 
             // Instantiate a new timer for the animation speed
             animationTimer = new Timer(ANIMATION_INIT_SPEED);
@@ -87,7 +87,7 @@ namespace SpaceInvaders
             moveUpSpeed = new Timer(MOVE_UP_SPEED);
 
             // Instatiate the ship bullets
-            EnemyBullets = new Bullets(LOWER_BOUNDARY, 3, MOVE_SPEED);
+            EnemyBullets = new Bullets(LOWER_BOUNDARY, 3, BULLET_MOVE_SPEED);
 
             // When the game starts the enemie is on the first sprite
             firstSprite = true;
@@ -148,10 +148,10 @@ namespace SpaceInvaders
                 Vector2 coordinate;
 
                 // Go through every enemy in the enemies list
-                for (int i = 0; i < enemies.Count; i++)
+                for (int i = 0; i < EnemyList.Count; i++)
                 {
                     // Save it's coordinates
-                    coordinate = enemies[i].Coordinates;
+                    coordinate = EnemyList[i].Coordinates;
 
                     // If the min is bigger than the coordinate Y
                     if (min > coordinate.Y)
@@ -165,16 +165,16 @@ namespace SpaceInvaders
                 if (min > Y_MIN)
                 {
                     // Go through every enemy on the enemies list
-                    for (int i = 0; i < enemies.Count; i++)
+                    for (int i = 0; i < EnemyList.Count; i++)
                     {
                         // Save it's coordinates
-                        coordinate = enemies[i].Coordinates;
+                        coordinate = EnemyList[i].Coordinates;
 
                         // Delete the under part of the enemy
                         BufferEditor.Delete(coordinate.X, coordinate.Y + 2, "       ");
 
                         // Decrease the enemy Y value
-                        enemies[i].DecreaseY();
+                        EnemyList[i].DecreaseY();
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace SpaceInvaders
 
                 Vector2 coordinate;
 
-                foreach (Enemy enemy in enemies)
+                foreach (Enemy enemy in EnemyList)
                 {
                     coordinate = enemy.Coordinates;
 
@@ -238,11 +238,11 @@ namespace SpaceInvaders
         private void Shoot()
         {
             // Get a random index from the list of enemies
-            int index = rnd.Next(0, enemies.Count);
+            int index = rnd.Next(0, EnemyList.Count);
 
             // Get the coordinates of the enemy
-            int x = enemies[index].Coordinates.X + 3;
-            int y = enemies[index].Coordinates.Y + 3;
+            int x = EnemyList[index].Coordinates.X + 3;
+            int y = EnemyList[index].Coordinates.Y + 3;
 
             // Add a new bullet
             EnemyBullets.Add(x, y, MoveType.DOWN);
@@ -259,10 +259,10 @@ namespace SpaceInvaders
             Vector2 coordinate;
 
             // Go through all existing enemies
-            for(int i = enemies.Count - 1; i >= 0; i--)
+            for(int i = EnemyList.Count - 1; i >= 0; i--)
             {
                 // Save the coordinate on a specific variable
-                coordinate = enemies[i].Coordinates;
+                coordinate = EnemyList[i].Coordinates;
 
                 // If the bullet hit an enemy
                 if (bulletCoordinate.X >= coordinate.X + 1 &&
@@ -271,10 +271,10 @@ namespace SpaceInvaders
                     bulletCoordinate.Y < coordinate.Y + 2)
                 {
                     // Delete the enemy
-                    enemies[i].Delete();
+                    EnemyList[i].Delete();
 
                     // Remove the enemy from the list
-                    enemies.Remove(enemies[i]);
+                    EnemyList.Remove(EnemyList[i]);
 
                     // Return true
                     return true;
@@ -332,27 +332,27 @@ namespace SpaceInvaders
         private void UpdateAllEnemies()
         {
             // Go through every enemy on the list
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < EnemyList.Count; i++)
             {
                 // Update the sprite to use
-                enemies[i].FirstSprite = firstSprite;
+                EnemyList[i].FirstSprite = firstSprite;
 
                 // Update the movement type
-                enemies[i].MovementType = currentMove;
+                EnemyList[i].MovementType = currentMove;
 
                 // Update if it's to increase the Y value
-                enemies[i].IncreaseY = increaseY;
+                EnemyList[i].IncreaseY = increaseY;
 
                 // Tell the enemy he can move
-                enemies[i].CanMove = moveEnemy;
+                EnemyList[i].CanMove = moveEnemy;
 
                 if (shipDestroyed)
                 {
-                    enemies[i].CanMove = false;
+                    EnemyList[i].CanMove = false;
                 }
 
                 // Call the update method on this enemy
-                enemies[i].Update();
+                EnemyList[i].Update();
             }
 
             // Reset the `increaseY` to false
@@ -374,11 +374,11 @@ namespace SpaceInvaders
                 moveEnemy = true;
 
                 // Find the closest enemy to the right and the left
-                for (int i = 0; i < enemies.Count; i++)
+                for (int i = 0; i < EnemyList.Count; i++)
                 {
                     // If the enemies are moving left and 
                     // the current enemy X coordinate is lower than the left boundary
-                    if (currentMove == MoveType.LEFT && enemies[i].Coordinates.X < LEFT_BOUNDARY)
+                    if (currentMove == MoveType.LEFT && EnemyList[i].Coordinates.X < LEFT_BOUNDARY)
                     {
                         // Set the movement direction to right
                         currentMove = MoveType.RIGHT;
@@ -388,7 +388,7 @@ namespace SpaceInvaders
                     }
                     // Else if the enemies are moving right and 
                     // the current enemy X coordinate is greater than right boundary
-                    else if (currentMove == MoveType.RIGHT && enemies[i].Coordinates.X > RIGHT_BOUNDARY)
+                    else if (currentMove == MoveType.RIGHT && EnemyList[i].Coordinates.X > RIGHT_BOUNDARY)
                     {
                         // Set the movement direction to left
                         currentMove = MoveType.LEFT;
@@ -407,12 +407,12 @@ namespace SpaceInvaders
         {
             for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
             {
-                enemies.Add(new Enemy(i * 8, -20, ConsoleColor.Green, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, -16, ConsoleColor.Green, EnemyType.ONE));
-                enemies.Add(new Enemy(i * 8, -12, ConsoleColor.Cyan, EnemyType.TWO));
-                enemies.Add(new Enemy(i * 8, -8, ConsoleColor.Cyan, EnemyType.TWO));
-                enemies.Add(new Enemy(i * 8, -4, ConsoleColor.Magenta, EnemyType.THREE));
-                enemies.Add(new Enemy(i * 8, 0, ConsoleColor.Magenta, EnemyType.THREE));
+                EnemyList.Add(new Enemy(i * 8, -20, ConsoleColor.Green, EnemyType.ONE));
+                EnemyList.Add(new Enemy(i * 8, -16, ConsoleColor.Green, EnemyType.ONE));
+                EnemyList.Add(new Enemy(i * 8, -12, ConsoleColor.Cyan, EnemyType.TWO));
+                EnemyList.Add(new Enemy(i * 8, -8, ConsoleColor.Cyan, EnemyType.TWO));
+                EnemyList.Add(new Enemy(i * 8, -4, ConsoleColor.Magenta, EnemyType.THREE));
+                EnemyList.Add(new Enemy(i * 8, 0, ConsoleColor.Magenta, EnemyType.THREE));
             }
         }
     }

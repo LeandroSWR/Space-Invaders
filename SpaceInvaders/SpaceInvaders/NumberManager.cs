@@ -113,6 +113,15 @@ namespace SpaceInvaders
         }
 
         /// <summary>
+        /// Delete the score on the buffer
+        /// </summary>
+        public static void DeleteScore()
+        {
+            // Delete the score from the buffer
+            Delete(0, SCORE_X_POS);
+        }
+
+        /// <summary>
         /// Write the number of lifes to the buffer
         /// </summary>
         /// <param name="lifes">The current number of lifes the player has</param>
@@ -125,10 +134,9 @@ namespace SpaceInvaders
         /// <summary>
         /// Delete the lifes on the buffer
         /// </summary>
-        /// <param name="lifes">The current number of lifes the player has</param>
         public static void DeleteLifes()
         {
-            // Write the number of lifes to the buffer
+            // Delete the number of lifes from the buffer
             Delete( 0, LIFES_X_POS);
         }
 
@@ -140,6 +148,15 @@ namespace SpaceInvaders
         {
             // Write the current level the player is in to the buffer
             Write(level, 2, LEVELS_X_POS);
+        }
+
+        /// <summary>
+        /// Delete the number of levels the buffer
+        /// </summary>
+        public static void DeleteLevel()
+        {
+            // Delete the number of levels from the buffer
+            Delete(0, LEVELS_X_POS);
         }
 
         /// <summary>
