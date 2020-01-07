@@ -12,7 +12,9 @@ namespace SpaceInvaders
         // Constants related to what's done in this script
         private const int ANIMATION_INIT_SPEED = 12;
         private const int NUMBER_OF_COLUMNS = 7;
+        private const int BULLET_MOVE_SPEED = 2;
         private const int MOVE_DOWN_STEPS = 30;
+        private const int BOTTOM_BOUDARY = 54;
         private const int RIGHT_BOUNDARY = 90;
         private const int LOWER_BOUNDARY = 58;
         private const int MOVE_DOWN_SPEED = 5;
@@ -21,7 +23,6 @@ namespace SpaceInvaders
         private const int MOVE_UP_SPEED = 5;
         private const int TOP_START_ROW = 6;
         private const int LEFT_BOUNDARY = 3;
-        private const int BULLET_MOVE_SPEED = 2;
         private const int Y_MIN = 12;
         
         // The current movement direction of all enemies
@@ -66,7 +67,7 @@ namespace SpaceInvaders
         // Check if the ship died
         public bool shipDestroyed;
 
-        public Enemies()
+        public Enemies(int level)
         {
             // Initialize the list
             EnemyList = new List<Enemy>();
@@ -98,7 +99,7 @@ namespace SpaceInvaders
             // At the start the y wont increasse
             increaseY = false;
 
-            AddEnemies();
+            AddEnemies(level);
         }
 
         public override void Update()
@@ -131,6 +132,9 @@ namespace SpaceInvaders
             
             // Updates all enemies
             UpdateAllEnemies();
+
+            // Checks if any enemy has reached the end of the screen
+            HasReachedBottom();
         }
 
         /// <summary>
@@ -403,9 +407,28 @@ namespace SpaceInvaders
         /// <summary>
         /// Adds enemies to the list of enemies
         /// </summary>
-        private void AddEnemies()
+        private void AddEnemies(int level)
         {
-            for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
+            int numColumns = NUMBER_OF_COLUMNS;
+            int moreEnemies = 0;
+            int counter = 0;
+
+            // Increase the number of row every 4 levels up to a maximum of 11
+            for (int i = 0; i < level; i++)
+            {
+                counter++;
+                if (counter == 4)
+                {
+                    counter = 0;
+                    if (moreEnemies < 4)
+                    {
+                        moreEnemies++;
+                    }
+                }
+            }
+            numColumns += moreEnemies;
+
+            for (int i = 0; i < numColumns; i++)
             {
                 EnemyList.Add(new Enemy(i * 8, -20, ConsoleColor.Green, EnemyType.ONE));
                 EnemyList.Add(new Enemy(i * 8, -16, ConsoleColor.Green, EnemyType.ONE));
@@ -413,6 +436,40 @@ namespace SpaceInvaders
                 EnemyList.Add(new Enemy(i * 8, -8, ConsoleColor.Cyan, EnemyType.TWO));
                 EnemyList.Add(new Enemy(i * 8, -4, ConsoleColor.Magenta, EnemyType.THREE));
                 EnemyList.Add(new Enemy(i * 8, 0, ConsoleColor.Magenta, EnemyType.THREE));
+                if (level > 4)
+                {
+                    EnemyList.Add(new Enemy(i * 8, 4, ConsoleColor.Blue, EnemyType.ONE));
+
+                    if (level > 9)
+                    {
+                        EnemyList.Add(new Enemy(i * 8, 8, ConsoleColor.Blue, EnemyType.TWO));
+
+                        if (level > 14)
+                        {
+                            EnemyList.Add(new Enemy(i * 8, 12, ConsoleColor.DarkGreen, EnemyType.THREE));
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if an enemy has reached the bottom of the screen
+        /// </summary>
+        private void HasReachedBottom()
+        {
+            // Go through every enemy on the enemy list
+            for (int i = EnemyList.Count - 1; i >= 0; i--)
+            {
+                // If it has reached the bottom
+                if (EnemyList[i].Coordinates.Y > BOTTOM_BOUDARY)
+                {
+                    // Delete that enemy
+                    EnemyList[i].Delete();
+
+                    // Remove it from the list
+                    EnemyList.Remove(EnemyList[i]);
+                }
             }
         }
     }

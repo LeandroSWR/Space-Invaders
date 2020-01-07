@@ -53,6 +53,12 @@ namespace SpaceInvaders
         /// </summary>
         public Game()
         {
+            // Initialize the lifes at 3
+            lifes = START_LIFES;
+
+            // Initialize the level at 1
+            level = 30;
+
             // Initialize the collection
             objectsCollection = new List<GameObject>();
 
@@ -63,19 +69,13 @@ namespace SpaceInvaders
             bullets = new List<Bullet>(20);
 
             // Instantiate new enemies
-            enemies = new Enemies();
+            enemies = new Enemies(level);
 
             // Instantiate new Barriers
             barriers = new Barriers();
 
             // Game over is false when the game starts
             gameOver = false;
-
-            // Initialize the lifes at 3
-            lifes = START_LIFES;
-
-            // Initialize the level at 1
-            level = 1;
         }
 
         /// <summary>
@@ -426,8 +426,10 @@ namespace SpaceInvaders
                 // Updates the header
                 DisplayHeader();
 
+                // Display the frame
                 BufferEditor.DisplayRender();
 
+                // Wait for 20 miliseconds
                 Thread.Sleep(20);
             }
 
@@ -454,7 +456,7 @@ namespace SpaceInvaders
         private void InitNextLevel()
         {
             ship.Init();
-            enemies = new Enemies();
+            enemies = new Enemies(level);
             barriers = new Barriers();
             barriers.Start();
             objectsCollection.Clear();

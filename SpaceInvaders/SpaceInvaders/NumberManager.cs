@@ -118,7 +118,7 @@ namespace SpaceInvaders
         public static void DeleteScore()
         {
             // Delete the score from the buffer
-            Delete(0, SCORE_X_POS);
+            Delete(6, SCORE_X_POS);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace SpaceInvaders
         public static void DeleteLevel()
         {
             // Delete the number of levels from the buffer
-            Delete(0, LEVELS_X_POS);
+            Delete(2, LEVELS_X_POS);
         }
 
         /// <summary>
