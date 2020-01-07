@@ -14,12 +14,12 @@ __Sara Gama__
 
 ## Contact
 
-* [GitHub](https://github.com/xShadoWalkeR/Space-Invaders)
+* [GitLab](https://gitlab.com/xShadoWalkeR/Space-Invaders)
 
 # Project architecture
 
 ## Our Solution
-We choose to make the game `Space Invaders` which has 24 classes and 2 enumeration.
+We choose to make the game `Space Invaders` which has 25 classes and 2 enumeration.
 
 The `Program` class appoints the window size, hides the cursor and calls 
 the `Menu` class. 
@@ -59,7 +59,7 @@ charaters in the buffer.
 ## Conclusions
 
 __Leandro Brás__
-
+Gained a better understanding of how the console works, 
 
 __Sara Gama__
 Hunderstood how to writing report about code work. Remenbering how to make 
@@ -70,5 +70,5 @@ flowchart and UML.
 Powerpoints provided by the teacher
 
 ## Thanks
-We are grateful to Fálvio and the professor Nuno Fachada who help us in 
+We are grateful to Fálvio and the theacher Nuno Fachada who help us in 
 console render.
