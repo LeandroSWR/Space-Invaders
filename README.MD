@@ -51,7 +51,7 @@ class `DoubleBuffer2d` to ease up the interection between other classes and the
 charaters in the buffer.
 
 ## UML
-![UML]()
+![UML](UML.png)
 
 ## Flowchart
 ![Flowchart](Flowchart.png)
