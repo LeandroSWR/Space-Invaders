@@ -9,7 +9,7 @@ namespace SpaceInvaders
         private const int MAX_NUM_BULLETS = 8;
         private const int LEFT_BOUNDARY = 0;
         private const int RIGHT_BOUNDARY = 93;
-        private const int UPPER_BOUNDARY = 8;
+        private const int UPPER_BOUNDARY = 6;
         private const int BULLET_SPEED = 1;
         private const int MOVE_SPEED = 2;
         private const int INIT_X = 47;
@@ -132,9 +132,6 @@ namespace SpaceInvaders
 
                 // Moves the ship
                 Move();
-            } else
-            {
-                Delete();
             }
             
             // Update the bullets

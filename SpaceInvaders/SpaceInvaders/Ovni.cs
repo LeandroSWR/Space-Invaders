@@ -18,8 +18,8 @@ namespace SpaceInvaders
 
         // Constanst necessary for this script
         private const int OVNI_HEIGHT = 2;
-        private const int INIT_X = 0;
-        private const int INIT_Y = 6;
+        private const int INIT_X = 1;
+        private const int INIT_Y = 7;
         private const int WATING_TIME = 1000;
         private const int MOVE_SPEED = 2;
         private const int RIGHT_BOUDARY = 90;
@@ -84,6 +84,24 @@ namespace SpaceInvaders
                 // Call the Write method
                 Write();
             }
+        }
+
+        /// <summary>
+        /// Initiliazes the ovni values
+        /// </summary>
+        public void Init()
+        {
+            // Reset the state
+            currentState = State.WAITING;
+
+            // Set the ovni starting coordinates
+            coordinates = new Vector2(INIT_X, INIT_Y);
+
+            // Initialize the wait timer
+            waitTimer = new Timer(WATING_TIME);
+
+            // Initialize the move timer
+            moveTimer = new Timer(MOVE_SPEED);
         }
 
         /// <summary>
@@ -153,7 +171,7 @@ namespace SpaceInvaders
                     Delete();
 
                     // Set the coordinates to 0
-                    coordinates.X = 0;
+                    coordinates.X = 1;
 
                     // Set it's state to wating
                     currentState = State.WAITING;

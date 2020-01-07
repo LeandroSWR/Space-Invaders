@@ -50,6 +50,9 @@ namespace SpaceInvaders
         // Instance of the barriers
         Barriers barriers;
 
+        // Instace of the explosions
+        Explosions explosions;
+
         // Instance of the ovni
         Ovni ovni;
 
@@ -79,6 +82,9 @@ namespace SpaceInvaders
             // Instantiate new Barriers
             barriers = new Barriers();
 
+            // Instantiate new explosions
+            explosions = new Explosions();
+
             // Instantiate a new Ovni
             ovni = new Ovni();
 
@@ -103,7 +109,11 @@ namespace SpaceInvaders
             // Add the barriers to the objects collection
             objectsCollection.Add(barriers);
 
+            // Add the ovni to the objects collection
             objectsCollection.Add(ovni);
+
+            // Add the explosions to the objects collection
+            objectsCollection.Add(explosions);
 
             // Clear the buffer from the menu render
             BufferEditor.ClearBuffer();
@@ -245,11 +255,16 @@ namespace SpaceInvaders
                 // Go through every bullet
                 for (int i = 0; i < bullets.Count; i++)
                 {
+                    Vector2 enemyCoord;
+
                     // If the bullet has hit an enemy
-                    if (enemies.CheckHit(bullets[i].Coordinates))
+                    if (enemies.CheckHit(bullets[i].Coordinates, out enemyCoord))
                     {
                         // Add the bullet to the bullets to delete
                         bulletsToDelete.Add(bullets[i]);
+
+                        // Create new explosion
+                        explosions.Add(enemyCoord, ExplosionType.SMALL);
 
                         // Increase the score
                         score += 100;
@@ -278,8 +293,11 @@ namespace SpaceInvaders
                     // If a bullet hit the ovni
                     if (ovni.IsDestroyed(bullet.Coordinates))
                     {
+                        // Create new explosion
+                        explosions.Add(ovni.Coordinates, ExplosionType.LARGE);
+
                         // Instantiate a new Ovni
-                        ovni = new Ovni();
+                        ovni.Init();
 
                         // Increase the score by 1000
                         score += 1000;
@@ -393,6 +411,9 @@ namespace SpaceInvaders
 
             // Set the ship destroyed true
             enemies.shipDestroyed = true;
+
+            // Add an explosion
+            explosions.Add(ship.Coordinates, ExplosionType.LARGE);
 
             // While the counter is counting
             while (counter.IsCounting())
@@ -539,6 +560,12 @@ namespace SpaceInvaders
             // Instantiate new barriers
             barriers = new Barriers();
 
+            // Instantiate a new ovni
+            ovni = new Ovni();
+
+            // Instantiate new explosions
+            explosions = new Explosions();
+
             // Start the barriers
             barriers.Start();
 
@@ -553,6 +580,12 @@ namespace SpaceInvaders
 
             // Add the barriers to the collection
             objectsCollection.Add(barriers);
+
+            // Add the explosions to the collection
+            objectsCollection.Add(explosions);
+
+            // Add the ovni to the collection
+            objectsCollection.Add(ovni);
 
             // Call the get ready method
             GetReady();

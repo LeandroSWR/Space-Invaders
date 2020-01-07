@@ -292,13 +292,12 @@ namespace SpaceInvaders
         /// </summary>
         /// <param name="bulletCoordinate">The coordinate of the bullet</param>
         /// <returns>If there was a hit</returns>
-        public bool CheckHit(Vector2 bulletCoordinate)
+        public bool CheckHit(Vector2 bulletCoordinate, out Vector2 coordinate)
         {
-            // Saves the enemy location
-            Vector2 coordinate;
+            coordinate = new Vector2(0, 0);
 
             // Go through all existing enemies
-            for(int i = EnemyList.Count - 1; i >= 0; i--)
+            for (int i = EnemyList.Count - 1; i >= 0; i--)
             {
                 // Save the coordinate on a specific variable
                 coordinate = EnemyList[i].Coordinates;

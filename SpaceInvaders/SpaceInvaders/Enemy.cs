@@ -11,7 +11,6 @@ namespace SpaceInvaders
     {
         // Constants related to what's done in this script
         private const int SPRITE_HEIGTH = 3;
-        private const int SPRITE_WIDTH = 7;
 
         /// <summary>
         /// The coordinate for the ship
