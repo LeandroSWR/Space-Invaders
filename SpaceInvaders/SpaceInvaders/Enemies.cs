@@ -194,28 +194,40 @@ namespace SpaceInvaders
                 firstSprite = !firstSprite;
             }
 
+            // If the moveDownTimer is not counting
             if (!moveDownTimer.IsCounting())
             {
+                //Increase the steps by 1
                 moveDownSteps++;
 
+                // If the moveDowSteps is greater than the `MOVE_DOWN_STEPS` returns
                 if (moveDownSteps > MOVE_DOWN_STEPS) return;
 
+                // Create a new vector2
                 Vector2 coordinate;
 
+                // Goes through every enemy in the Enemy List
                 foreach (Enemy enemy in EnemyList)
                 {
+                    // Save the enemy coordinate to a more convinient variable
                     coordinate = enemy.Coordinates;
 
+                    // Set the enemy to not move
                     enemy.CanMove = false;
 
+                    // Update the enemy sprite
                     enemy.FirstSprite = firstSprite;
 
+                    // Increase the enemy Y
                     enemy.YIncreasse();
 
+                    // If the enemy Y coordinate is greater than the `TOP_START_ROW`
                     if (coordinate.Y > TOP_START_ROW)
                     {
+                        // Delete the top line of the enemy
                         BufferEditor.Delete(coordinate.X, coordinate.Y, "       ");
 
+                        // Update the enemy
                         enemy.Update();
                     }
                 }
@@ -325,6 +337,7 @@ namespace SpaceInvaders
                 }
             }
 
+            // Return false
             return false;
         }
 
@@ -407,43 +420,66 @@ namespace SpaceInvaders
         /// </summary>
         private void AddEnemies(int level)
         {
+            // Create a new int for the number of columns
             int numColumns = NUMBER_OF_COLUMNS;
+
+            // Create a new int for how many more enemies to add
             int moreEnemies = 0;
+
+            // Create a counter
             int counter = 0;
 
             // Increase the number of row every 4 levels up to a maximum of 11
             for (int i = 0; i < level; i++)
             {
+                // Increase the counter by 1
                 counter++;
+
+                // If the counter is equal to 4
                 if (counter == 4)
                 {
+                    // Set the counter to 0
                     counter = 0;
+
+                    // If ``moreEnemies is less than 4`
                     if (moreEnemies < 4)
                     {
+                        // Increase the number of enemies to add
                         moreEnemies++;
                     }
                 }
             }
+
+            // Increase the number of enemies by `moreEnemies`
             numColumns += moreEnemies;
 
+            // Loops the number of `numColumns`
             for (int i = 0; i < numColumns; i++)
             {
+                // Add all the starting enemies
                 EnemyList.Add(new Enemy(i * 8, -20, ConsoleColor.Green, EnemyType.ONE));
                 EnemyList.Add(new Enemy(i * 8, -16, ConsoleColor.Green, EnemyType.ONE));
                 EnemyList.Add(new Enemy(i * 8, -12, ConsoleColor.Cyan, EnemyType.TWO));
                 EnemyList.Add(new Enemy(i * 8, -8, ConsoleColor.Cyan, EnemyType.TWO));
                 EnemyList.Add(new Enemy(i * 8, -4, ConsoleColor.Magenta, EnemyType.THREE));
                 EnemyList.Add(new Enemy(i * 8, 0, ConsoleColor.Magenta, EnemyType.THREE));
+
+                // If the level is greater than 4
                 if (level > 4)
                 {
+                    // Adds an extra line of enemies
                     EnemyList.Add(new Enemy(i * 8, 4, ConsoleColor.Blue, EnemyType.ONE));
 
+                    // If the level is greate than 9
                     if (level > 9)
                     {
+                        // Adds an extra line of enemies
                         EnemyList.Add(new Enemy(i * 8, 8, ConsoleColor.Blue, EnemyType.TWO));
 
+                        // If the level is greate than 14
                         if (level > 14)
                         {
+                            // Adds an extra line of enemies
                             EnemyList.Add(new Enemy(i * 8, 12, ConsoleColor.DarkGreen, EnemyType.THREE));
                         }
                     }

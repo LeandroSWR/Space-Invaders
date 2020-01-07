@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SpaceInvaders
 {
+    /// <summary>
+    /// Enemy Class corresponds to an ingame enemy object
+    /// </summary>
     class Enemy : GameObject
     {
         // Constants related to what's done in this script

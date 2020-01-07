@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SpaceInvaders
 {
+    /// <summary>
+    /// Bullet Class corresponds to an ingame bullet object
+    /// </summary>
     class Bullet
     {
         // The bullet prite

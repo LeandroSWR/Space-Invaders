@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace SpaceInvaders
 {
+    /// <summary>
+    /// Game Class responsible for the game loop and several game functions
+    /// </summary>
     class Game
     {
         // Constant that holds the frame time
@@ -104,8 +106,10 @@ namespace SpaceInvaders
                 objectsCollection[i].Start();
             }
 
+            // Create a new long start
             long start;
 
+            // Create a new long timeToWait
             int timeToWait;
 
             // Calls the get ready animation before the game starts
@@ -114,6 +118,7 @@ namespace SpaceInvaders
             // Loops...
             do
             {
+                // The time in ticks at the start of the frame
                 start = DateTime.Now.Ticks / 10000;
 
                 /// Call a global update method ///
@@ -129,21 +134,25 @@ namespace SpaceInvaders
                 EnemyDestroyedCheck();
                 BarrierHitCheck();
 
+                // If there's no enemies left
+                if (enemies.EnemyList.Count == 0)
+                {
+                    // Call the level completed method
+                    LevelCompleted();
+                }
+
                 // Check if the ship was hit
                 if (ShipDestroyedCheck())
                 {
+                    // Call the life lost method
                     LifeLost();
                     gameOver = lifes == 0;
-                }
-
-                if (enemies.EnemyList.Count == 0)
-                {
-                    LevelCompleted();
                 }
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
 
+                // Get the delay needed
                 timeToWait = (int)(start + FAME_TIME - DateTime.Now.Ticks / 10000);
 
                 // Delay the thread by a certain ammout of time so the game can be precieved
@@ -153,37 +162,54 @@ namespace SpaceInvaders
             } while (!gameOver);
         }
 
+        /// <summary>
+        /// Get Ready method to animate the begining of the game or level
+        /// </summary>
         private void GetReady()
         {
+            // Create a new timer counter
             Timer counter = new Timer(160);
+
+            // Create a new timer to blink the text
             Timer blinker = new Timer(9);
+
+            // Create a new bool to display the text
             bool displayText = true;
 
+            // While the counter is counting
             while (counter.IsCounting())
             {
-                // Displays the header
+                // Updates the header
                 DisplayHeader();
 
+                // Sets the `displayText` to true or false
                 displayText = !blinker.IsCounting() ? !displayText : displayText;
 
+                // If the displayText is true
                 if (displayText)
                 {
+                    // Set a color and write to the buffer
                     BufferEditor.WriteWithColor(0, 50, " ", ConsoleColor.Yellow);
                     BufferEditor.Write(45, 50, "Get Ready!");
                 }
+                // Else...
                 else
                 {
+                    // Delete from the buffer
                     BufferEditor.Delete(45, 50, "          ");
                 }
 
+                // Move the enemies down
                 enemies.MoveDown();
 
                 /// Render the frame ///
                 BufferEditor.DisplayRender();
 
+                // Delay the loop
                 Thread.Sleep(BASE_DELAY);
             }
 
+            // Delete the text again
             BufferEditor.Write(45, 50, "          ");
         }
 
@@ -455,14 +481,31 @@ namespace SpaceInvaders
         /// </summary>
         private void InitNextLevel()
         {
+            // Reset the ship values
             ship.Init();
+
+            // Instantiate new enemies
             enemies = new Enemies(level);
+
+            // Instantiate new barriers
             barriers = new Barriers();
+
+            // Start the barriers
             barriers.Start();
+
+            // Clears the objects collection
             objectsCollection.Clear();
+
+            // Add the ship to the collection
             objectsCollection.Add(ship);
+
+            // Add the enemies to the collection
             objectsCollection.Add(enemies);
+
+            // Add the barriers to the collection
             objectsCollection.Add(barriers);
+
+            // Call the get ready method
             GetReady();
         }
 

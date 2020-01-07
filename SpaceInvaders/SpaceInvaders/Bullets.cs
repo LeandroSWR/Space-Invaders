@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SpaceInvaders
 {
+    /// <summary>
+    /// The Bullets class holds and controls several bullets
+    /// </summary>
     class Bullets
     {
         // List with the current bullets on the scene
