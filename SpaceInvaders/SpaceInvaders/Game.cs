@@ -86,7 +86,7 @@ namespace SpaceInvaders
         public void Loop()
         {
             // Intantiate a new ship
-            ship = new Ship();
+            ship = new Ship(level);
 
             // Add a ship to the objects collection
             objectsCollection.Add(ship);
@@ -392,7 +392,7 @@ namespace SpaceInvaders
             }
 
             // Reset the ship values
-            ship.Init();
+            ship.Init(level);
 
             // Set the life lost to false
             ship.LifeLost = false;
@@ -482,7 +482,7 @@ namespace SpaceInvaders
         private void InitNextLevel()
         {
             // Reset the ship values
-            ship.Init();
+            ship.Init(level);
 
             // Instantiate new enemies
             enemies = new Enemies(level);

@@ -14,6 +14,8 @@ namespace SpaceInvaders
         private const int NUMBER_OF_COLUMNS = 7;
         private const int BULLET_MOVE_SPEED = 2;
         private const int MOVE_DOWN_STEPS = 30;
+        private const int INIT_NUM_BULLETS = 3;
+        private const int MAX_NUM_BULLETS = 10;
         private const int BOTTOM_BOUDARY = 54;
         private const int RIGHT_BOUNDARY = 90;
         private const int LOWER_BOUNDARY = 58;
@@ -55,6 +57,8 @@ namespace SpaceInvaders
         // The step ammount to move the enemy down
         private int moveDownSteps;
 
+        private int numOfBullets;
+
         // If the enemy is on the first sprite
         private bool firstSprite;
 
@@ -67,8 +71,29 @@ namespace SpaceInvaders
         // Check if the ship died
         public bool shipDestroyed;
 
+        /// <summary>
+        /// The enemies constructor 
+        /// </summary>
+        /// <param name="level">The current level</param>
         public Enemies(int level)
         {
+            // Set the max number of bullets for the enemies
+            numOfBullets = INIT_NUM_BULLETS;
+
+            // Increase the number of bullets every 4 levels up to a maximum of 10 bullets
+            Timer bulletCounter = new Timer(4);
+
+            // Loop the level amount of times
+            for (int i = 0; i < level; i++)
+            {
+                // If the bullet counter has stopped and the num of bullets is less than the max
+                if (!bulletCounter.IsCounting() && (numOfBullets < MAX_NUM_BULLETS))
+                {
+                    // Increase the number of bullets by 2
+                    numOfBullets += 2;
+                }
+            }
+
             // Initialize the list
             EnemyList = new List<Enemy>();
 
@@ -88,7 +113,7 @@ namespace SpaceInvaders
             moveUpSpeed = new Timer(MOVE_UP_SPEED);
 
             // Instatiate the ship bullets
-            EnemyBullets = new Bullets(LOWER_BOUNDARY, 3, BULLET_MOVE_SPEED);
+            EnemyBullets = new Bullets(LOWER_BOUNDARY, numOfBullets, BULLET_MOVE_SPEED);
 
             // When the game starts the enemie is on the first sprite
             firstSprite = true;

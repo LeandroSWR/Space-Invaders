@@ -5,6 +5,8 @@ namespace SpaceInvaders
     class Ship : GameObject
     {
         // Constants related to what's done in this script
+        private const int INIT_NUM_BULLETS = 3;
+        private const int MAX_NUM_BULLETS = 8;
         private const int LEFT_BOUNDARY = 0;
         private const int RIGHT_BOUNDARY = 93;
         private const int UPPER_BOUNDARY = 8;
@@ -38,11 +40,31 @@ namespace SpaceInvaders
         // Check if a life was lost
         public bool LifeLost { get; set; }
 
+        // Hold the total number of bullets
+        private int numOfBullets;
+
         /// <summary>
         /// Ship Class constructor
         /// </summary>
-        public Ship()
+        /// <param name="level">The current level</param>
+        public Ship(int level)
         {
+            // Set the starting number of bullets
+            numOfBullets = INIT_NUM_BULLETS;
+
+            // Increase the number of bullets every 4 levels up to a maximum of 8 bullets
+            Timer bulletCounter = new Timer(4);
+
+            // Loop the level amount of times
+            for (int i = 0; i < level; i++)
+            {
+                // If the bullet counter has stopped and the num of bullets is less than the max
+                if (!bulletCounter.IsCounting() && (numOfBullets < MAX_NUM_BULLETS))
+                {
+                    numOfBullets += 2;
+                }
+            }
+
             // Set the ship coordinates to the starting position
             coordinates = new Vector2(INIT_X, INIT_Y);
 
@@ -50,7 +72,7 @@ namespace SpaceInvaders
             keyReader = new KeyReader();
 
             // Instatiate the ship bullets
-            ShipBullets = new Bullets(UPPER_BOUNDARY, 3, BULLET_SPEED);
+            ShipBullets = new Bullets(UPPER_BOUNDARY, numOfBullets, BULLET_SPEED);
 
             // Instantiate a new Timer
             moveTimer = new Timer(MOVE_SPEED);
@@ -65,10 +87,34 @@ namespace SpaceInvaders
         /// <summary>
         /// Initializes the ship values
         /// </summary>
-        public void Init()
+        /// <param name="level">The current level</param>
+        public void Init(int level)
         {
+            // Set the ship coordinates
             coordinates = new Vector2(INIT_X, INIT_Y);
+
+            // Set the type of movement the ship starts with
             currentMove = MoveType.NONE;
+
+            // Set the starting number of bullets
+            numOfBullets = INIT_NUM_BULLETS;
+
+            // Increase the number of bulets every 4 levels up to a maximum of 8 bullets
+            Timer bulletCounter = new Timer(4);
+
+            // Loop the level amount of times
+            for (int i = 0; i < level; i++)
+            {
+                // If the bullet counter has stopped and the num of bullets is less than the max
+                if (!bulletCounter.IsCounting() && (numOfBullets < MAX_NUM_BULLETS))
+                {
+                    // Increase the number of bullets by 2
+                    numOfBullets += 2;
+                }
+            }
+
+            // Instatiate the ship bullets
+            ShipBullets = new Bullets(UPPER_BOUNDARY, numOfBullets, BULLET_SPEED);
         }
 
         /// <summary>
