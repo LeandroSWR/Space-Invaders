@@ -29,9 +29,6 @@ namespace SpaceInvaders
         /// </summary>
         public Menu() 
         {
-            // Instantiate a new Game
-            game = new Game();
-
             // The play button starts selected
             playSelected = true;
 
@@ -140,14 +137,6 @@ namespace SpaceInvaders
                         // Change what button is selected
                         playSelected = true;
                         quitSelected = false;
-
-                        // Render the menu
-                        RenderMenu();
-                    } 
-                    else
-                    {
-                        // Render the menu
-                        RenderMenu();
                     }
                     break;
                 // If the user pressed the right arrow key
@@ -158,14 +147,6 @@ namespace SpaceInvaders
                         // Change what button is selected
                         playSelected = false;
                         quitSelected = true;
-
-                        // Render the menu
-                        RenderMenu();
-                    }
-                    else
-                    {
-                        // Render the menu
-                        RenderMenu();
                     }
                     break;
                 // If the user pressed enter
@@ -173,11 +154,11 @@ namespace SpaceInvaders
                     // If the play button is selected
                     if (playSelected)
                     {
+                        // Instantiate a new Game
+                        game = new Game();
+
                         // Start the game
                         game.Loop();
-
-                        // Render the menu
-                        RenderMenu();
                     }
                     else
                     {
@@ -185,12 +166,10 @@ namespace SpaceInvaders
                         Environment.Exit(0);
                     }
                     break;
-                // If the user pressed an invalid key
-                default:
-                    // Render the menu
-                    RenderMenu();
-                    break;
             }
+
+            // Render the menu
+            RenderMenu();
         }
     }
 }

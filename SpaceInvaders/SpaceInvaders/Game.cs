@@ -165,6 +165,7 @@ namespace SpaceInvaders
                 {
                     // Call the life lost method
                     LifeLost();
+
                     gameOver = lifes == 0;
                 }
 
@@ -179,6 +180,9 @@ namespace SpaceInvaders
 
                 // While the game is not over
             } while (!gameOver);
+
+            // Clears the buffer
+            BufferEditor.ClearBuffer();
         }
 
         /// <summary>

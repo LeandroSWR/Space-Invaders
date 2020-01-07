@@ -31,9 +31,6 @@ namespace SpaceInvaders
         // Instance of Bullets
         public Bullets ShipBullets { get; private set; }
 
-        // A key reader
-        private KeyReader keyReader;
-
         // A timer for the movement of the ship
         private Timer moveTimer;
 
@@ -67,9 +64,6 @@ namespace SpaceInvaders
 
             // Set the ship coordinates to the starting position
             coordinates = new Vector2(INIT_X, INIT_Y);
-
-            // Instantiate a new Key Reader
-            keyReader = new KeyReader();
 
             // Instatiate the ship bullets
             ShipBullets = new Bullets(UPPER_BOUNDARY, numOfBullets, BULLET_SPEED);
@@ -171,8 +165,18 @@ namespace SpaceInvaders
         /// </summary>
         private void GetInput()
         {
+            // Create a new ConsoleKeyInfo
+            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
+
+            // Loop
+            while (Console.KeyAvailable)
+            {
+                // Set the keyInfo to the read key
+                keyInfo = Console.ReadKey(true);
+            }
+
             // Check what key the user pressed
-            switch (keyReader.CurrentKey)
+            switch (keyInfo.Key)
             {
                 // If the user pressed the Left Arrow
                 case ConsoleKey.LeftArrow:
